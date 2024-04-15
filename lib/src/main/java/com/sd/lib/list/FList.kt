@@ -13,7 +13,7 @@ interface FList<T> {
     /**
      * 清空数据
      */
-    fun clear()
+    fun clear(): Boolean
 
     /**
      * 添加数据
@@ -77,31 +77,26 @@ interface FList<T> {
 }
 
 /**
- * 创建[FList]
+ * 创建[FList]，
+ * 不支持多线程并发，如果有多线程的使用场景，需要外部做线程同步。
  *
- * @param initial 初始值
  * @param onChange 数据变化回调
  */
 fun <T> FList(
-    initial: List<T> = emptyList(),
     onChange: ((List<T>) -> Unit)? = null,
 ): FList<T> {
     return FListImpl(
-        initial = initial,
         onChange = onChange,
     )
 }
 
 private class FListImpl<T>(
-    initial: List<T>,
     private val onChange: ((List<T>) -> Unit)?,
 ) : FList<T> {
 
-    private val _mutableList: MutableList<T> = mutableListOf<T>().apply {
-        this.addAll(initial)
-    }
+    private val _mutableList: MutableList<T> = mutableListOf()
 
-    private var _isDirty = true
+    private var _isDirty = false
     private lateinit var _data: List<T>
 
     override val data: List<T>
@@ -120,8 +115,8 @@ private class FListImpl<T>(
         }
     }
 
-    override fun clear() {
-        modify { mutableList ->
+    override fun clear(): Boolean {
+        return modify { mutableList ->
             val oldSize = mutableList.size
             mutableList.clear()
             oldSize > 0

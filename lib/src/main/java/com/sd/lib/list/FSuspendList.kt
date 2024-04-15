@@ -4,18 +4,12 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 
 interface FSuspendList<T> {
 
     /** 数据 */
     val data: List<T>
-
-    /** 数据流 */
-    val dataFlow: Flow<List<T>>
 
     /**
      * 设置数据
@@ -25,7 +19,7 @@ interface FSuspendList<T> {
     /**
      * 清空数据
      */
-    suspend fun clear()
+    suspend fun clear(): Boolean
 
     /**
      * 添加数据
@@ -56,7 +50,7 @@ interface FSuspendList<T> {
     suspend fun addAllDistinctInput(
         list: List<T>,
         /** 去重条件，返回true表示数据重复 */
-        distinct: (oldItem: T, newItem: T) -> Boolean,
+        distinct: (oldItem: T, newItem: T) -> Boolean = { oldItem, newItem -> oldItem == newItem },
     ): Boolean
 
     /**
@@ -86,45 +80,34 @@ interface FSuspendList<T> {
      * @return true-本次调用数据发生了变化
      */
     suspend fun removeAll(predicate: (T) -> Boolean): Boolean
-
-    /**
-     * 修改数据
-     *
-     * @param block [block]返回true表示数据修改成功
-     * @return true-本次调用数据发生了变化
-     */
-    suspend fun modify(block: (list: MutableList<T>) -> Boolean): Boolean
 }
 
 /**
  * 创建[FSuspendList]
  *
- * @param initial 初始值
  * @param dispatcher 并发必须为1
+ * @param onChange 数据变化回调
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 fun <T> FSuspendList(
-    initial: List<T> = emptyList(),
-    dispatcher: CoroutineDispatcher = Dispatchers.Default.limitedParallelism(1)
+    dispatcher: CoroutineDispatcher = Dispatchers.Default.limitedParallelism(1),
+    onChange: (suspend (List<T>) -> Unit)? = null,
 ): FSuspendList<T> {
     return FSuspendListImpl(
-        initial = initial,
         dispatcher = dispatcher,
+        onChange = onChange,
     )
 }
 
 //-------------------- impl --------------------
 
 private class FSuspendListImpl<T>(
-    initial: List<T>,
     private val dispatcher: CoroutineDispatcher,
+    private val onChange: (suspend (List<T>) -> Unit)? = null,
 ) : FSuspendList<T> {
 
-    private val _list = FList(initial)
-    private val _dataFlow: MutableStateFlow<List<T>> = MutableStateFlow(initial)
-
-    override val data: List<T> get() = _dataFlow.value
-    override val dataFlow: Flow<List<T>> = _dataFlow.asStateFlow()
+    private val _list = FList<T>()
+    override val data: List<T> get() = _list.data
 
     override suspend fun set(list: List<T>) {
         modifyList {
@@ -133,10 +116,9 @@ private class FSuspendListImpl<T>(
         }
     }
 
-    override suspend fun clear() {
-        modifyList {
+    override suspend fun clear(): Boolean {
+        return modifyList {
             it.clear()
-            true
         }
     }
 
@@ -194,22 +176,12 @@ private class FSuspendListImpl<T>(
         }
     }
 
-    override suspend fun modify(block: (list: MutableList<T>) -> Boolean): Boolean {
-        return modifyList { list ->
-            val mutableList = list.data.toMutableList()
-            val oldSize = mutableList.size
-            block(mutableList) || mutableList.size != oldSize
-        }
-    }
-
     private suspend fun modifyList(block: (list: FList<T>) -> Boolean): Boolean {
         return dispatch {
-            val oldSize = _list.data.size
-            if (block(_list) || _list.data.size != oldSize) {
-                _dataFlow.value = _list.data.toList()
-                true
-            } else {
-                false
+            block(_list).also { change ->
+                if (change) {
+                    onChange?.invoke(data)
+                }
             }
         }
     }
