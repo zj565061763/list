@@ -1,7 +1,7 @@
 package com.sd.demo.list
 
 import app.cash.turbine.test
-import com.sd.lib.list.FList
+import com.sd.lib.list.FSuspendList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.test.runTest
@@ -11,7 +11,7 @@ import org.junit.Test
 class ListTest {
     @Test
     fun `test set clear`() = runTest {
-        val list = FList<Int>(dispatcher = currentCoroutineDispatcher())
+        val list = FSuspendList<Int>(dispatcher = currentCoroutineDispatcher())
         list.dataFlow.test {
             emptyList<Int>().let { data ->
                 assertEquals(data, list.data)
@@ -34,7 +34,7 @@ class ListTest {
 
     @Test
     fun `test add`() = runTest {
-        val list = FList<Int>(dispatcher = currentCoroutineDispatcher())
+        val list = FSuspendList<Int>(dispatcher = currentCoroutineDispatcher())
         list.dataFlow.test {
             emptyList<Int>().let { data ->
                 assertEquals(data, list.data)
@@ -51,7 +51,7 @@ class ListTest {
 
     @Test
     fun `test addAll`() = runTest {
-        val list = FList<Int>(dispatcher = currentCoroutineDispatcher())
+        val list = FSuspendList<Int>(dispatcher = currentCoroutineDispatcher())
         list.dataFlow.test {
             emptyList<Int>().let { data ->
                 assertEquals(data, list.data)
@@ -68,7 +68,7 @@ class ListTest {
 
     @Test
     fun `test addAllDistinct`() = runTest {
-        val list = FList(
+        val list = FSuspendList(
             initial = listOf(0, 1, 2),
             dispatcher = currentCoroutineDispatcher(),
         )
@@ -89,7 +89,7 @@ class ListTest {
 
     @Test
     fun `test addAllDistinctInput`() = runTest {
-        val list = FList(
+        val list = FSuspendList(
             initial = listOf(0, 1, 2),
             dispatcher = currentCoroutineDispatcher(),
         )
@@ -110,7 +110,7 @@ class ListTest {
 
     @Test
     fun `test replaceFirst`() = runTest {
-        val list = FList(
+        val list = FSuspendList(
             initial = listOf(1, 1, 1),
             dispatcher = currentCoroutineDispatcher(),
         )
@@ -131,7 +131,7 @@ class ListTest {
 
     @Test
     fun `test replaceAll`() = runTest {
-        val list = FList(
+        val list = FSuspendList(
             initial = listOf(1, 1, 1),
             dispatcher = currentCoroutineDispatcher(),
         )
@@ -152,7 +152,7 @@ class ListTest {
 
     @Test
     fun `test removeFirst`() = runTest {
-        val list = FList(
+        val list = FSuspendList(
             initial = listOf(1, 1, 1),
             dispatcher = currentCoroutineDispatcher(),
         )
@@ -173,7 +173,7 @@ class ListTest {
 
     @Test
     fun `test removeAll`() = runTest {
-        val list = FList(
+        val list = FSuspendList(
             initial = listOf(1, 1, 1),
             dispatcher = currentCoroutineDispatcher(),
         )

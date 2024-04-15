@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 internal class FListImpl<T>(
     initial: List<T>,
     private val dispatcher: CoroutineDispatcher,
-) : FList<T> {
+) : FSuspendList<T> {
 
     private val _list: MutableList<T> = mutableListOf<T>().apply { this.addAll(initial) }
     private val _dataFlow: MutableStateFlow<List<T>> = MutableStateFlow(initial)

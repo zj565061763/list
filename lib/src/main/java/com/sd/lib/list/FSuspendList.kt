@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
-interface FList<T> {
+interface FSuspendList<T> {
 
     /** 数据 */
     val data: List<T>
@@ -34,7 +34,7 @@ interface FList<T> {
     suspend fun addAll(list: List<T>)
 
     /**
-     * 添加数据并去重，删除[FList]中重复的数据
+     * 添加数据并去重，删除[FSuspendList]中重复的数据
      */
     suspend fun addAllDistinct(
         list: List<T>,
@@ -78,16 +78,16 @@ interface FList<T> {
 }
 
 /**
- * 创建[FList]
+ * 创建[FSuspendList]
  *
  * @param initial 初始值
  * @param dispatcher 并发必须为1
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-fun <T> FList(
+fun <T> FSuspendList(
     initial: List<T> = emptyList(),
     dispatcher: CoroutineDispatcher = Dispatchers.Default.limitedParallelism(1)
-): FList<T> {
+): FSuspendList<T> {
     return FListImpl(
         initial = initial,
         dispatcher = dispatcher,
