@@ -8,7 +8,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ListTest {
+class SuspendListTest {
     @Test
     fun `test set clear`() = runTest {
         val list = FSuspendList<Int>(dispatcher = currentCoroutineDispatcher())
