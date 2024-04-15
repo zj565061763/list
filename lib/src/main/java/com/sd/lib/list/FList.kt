@@ -80,34 +80,58 @@ interface FList<T> {
  * 创建[FList]
  *
  * @param initial 初始值
+ * @param onChange 数据变化回调
  */
 fun <T> FList(
     initial: List<T> = emptyList(),
+    onChange: ((List<T>) -> Unit)? = null,
 ): FList<T> {
-    return FListImpl(initial)
+    return FListImpl(
+        initial = initial,
+        onChange = onChange,
+    )
 }
 
 private class FListImpl<T>(
     initial: List<T>,
+    private val onChange: ((List<T>) -> Unit)?,
 ) : FList<T> {
 
-    private val _list: MutableList<T> = mutableListOf<T>().apply {
+    private val _mutableList: MutableList<T> = mutableListOf<T>().apply {
         this.addAll(initial)
     }
 
-    override val data: List<T> get() = _list
+    private var _isDirty = true
+    private lateinit var _data: List<T>
+
+    override val data: List<T>
+        get() {
+            if (_isDirty) {
+                _isDirty = false
+                _data = _mutableList.toList()
+            }
+            return _data
+        }
 
     override fun set(list: List<T>) {
-        _list.clear()
-        _list.addAll(list)
+        modify { mutableList ->
+            mutableList.clear()
+            mutableList.addAll(list)
+        }
     }
 
     override fun clear() {
-        _list.clear()
+        modify { mutableList ->
+            val oldSize = mutableList.size
+            mutableList.clear()
+            oldSize > 0
+        }
     }
 
     override fun add(data: T): Boolean {
-        return _list.add(data)
+        return modify { mutableList ->
+            mutableList.add(data)
+        }
     }
 
     override fun addAll(
@@ -115,14 +139,20 @@ private class FListImpl<T>(
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
         if (list.isEmpty()) return false
+
         if (distinct == null) {
-            return _list.addAll(list)
+            return modify { mutableList ->
+                mutableList.addAll(list)
+            }
         }
-        val removeAllChanged = _list.removeAll { oldItem ->
-            list.firstOrNull { newItem -> distinct(oldItem, newItem) } != null
+
+        return modify { mutableList ->
+            val removeAllChanged = mutableList.removeAll { oldItem ->
+                list.firstOrNull { newItem -> distinct(oldItem, newItem) } != null
+            }
+            val addAllChanged = mutableList.addAll(list)
+            removeAllChanged || addAllChanged
         }
-        val addAllChanged = _list.addAll(list)
-        return removeAllChanged || addAllChanged
     }
 
     override fun addAllDistinctInput(
@@ -130,46 +160,65 @@ private class FListImpl<T>(
         distinct: (oldItem: T, newItem: T) -> Boolean,
     ): Boolean {
         if (list.isEmpty()) return false
-        val mutableList = list.toMutableList()
-        mutableList.removeAll { newItem ->
-            _list.firstOrNull { oldItem -> distinct(oldItem, newItem) } != null
+        return modify { mutableList ->
+            val inputList = list.toMutableList()
+            inputList.removeAll { newItem ->
+                mutableList.firstOrNull { oldItem -> distinct(oldItem, newItem) } != null
+            }
+            mutableList.addAll(inputList)
         }
-        return _list.addAll(mutableList)
     }
 
     override fun replaceFirst(block: (T) -> T): Boolean {
-        var result = false
-        for (index in _list.indices) {
-            val item = _list[index]
-            val newItem = block(item)
-            if (newItem != item) {
-                _list[index] = newItem
-                result = true
-                break
+        return modify { mutableList ->
+            var result = false
+            for (index in mutableList.indices) {
+                val item = mutableList[index]
+                val newItem = block(item)
+                if (newItem != item) {
+                    mutableList[index] = newItem
+                    result = true
+                    break
+                }
             }
+            result
         }
-        return result
     }
 
     override fun replaceAll(block: (T) -> T): Boolean {
-        var result = false
-        for (index in _list.indices) {
-            val item = _list[index]
-            val newItem = block(item)
-            if (newItem != item) {
-                _list[index] = newItem
-                result = true
+        return modify { mutableList ->
+            var result = false
+            for (index in mutableList.indices) {
+                val item = mutableList[index]
+                val newItem = block(item)
+                if (newItem != item) {
+                    mutableList[index] = newItem
+                    result = true
+                }
             }
+            result
         }
-        return result
     }
 
     override fun removeFirst(predicate: (T) -> Boolean): Boolean {
-        return _list.removeFirst(predicate)
+        return modify { mutableList ->
+            mutableList.removeFirst(predicate)
+        }
     }
 
     override fun removeAll(predicate: (T) -> Boolean): Boolean {
-        return _list.removeAll(predicate)
+        return modify { mutableList ->
+            mutableList.removeAll(predicate)
+        }
+    }
+
+    private fun modify(block: (list: MutableList<T>) -> Boolean): Boolean {
+        return block(_mutableList).also { change ->
+            if (change) {
+                _isDirty = true
+                onChange?.invoke(data)
+            }
+        }
     }
 }
 
