@@ -44,7 +44,7 @@ interface FList<T> {
     fun addAllDistinctInput(
         list: List<T>,
         /** 去重条件，返回true表示数据重复 */
-        distinct: (oldItem: T, newItem: T) -> Boolean,
+        distinct: (oldItem: T, newItem: T) -> Boolean = { oldItem, newItem -> oldItem == newItem },
     ): Boolean
 
     /**
