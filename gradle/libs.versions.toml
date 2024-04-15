@@ -2,10 +2,10 @@
 
 androidCompileSdk = "34"
 
-androidGradlePlugin = "8.3.1"
+androidGradlePlugin = "8.3.2"
 kotlin = "1.9.23"
 
-compose = "1.6.4"
+compose = "1.6.5"
 composeCompiler = "1.5.11"
 composeMaterial3 = "1.2.1"
 
@@ -32,7 +32,7 @@ androidx-test-ext-junit = "androidx.test.ext:junit:1.1.5"
 androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.5.1"
 
 kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0"
-cash-turbine = "app.cash.turbine:turbine:1.0.0"
+cash-turbine = "app.cash.turbine:turbine:1.1.0"
 kotlinx-coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0"
 
 [plugins]
