@@ -83,7 +83,7 @@ interface FList<T> {
  * @param onChange 数据变化回调
  */
 fun <T> FList(
-    onChange: ((List<T>) -> Unit)? = null,
+    onChange: FList<T>.() -> Unit = {},
 ): FList<T> {
     return FListImpl(
         onChange = onChange,
@@ -91,7 +91,7 @@ fun <T> FList(
 }
 
 private class FListImpl<T>(
-    private val onChange: ((List<T>) -> Unit)?,
+    private val onChange: FList<T>.() -> Unit = {},
 ) : FList<T> {
 
     private val _mutableList: MutableList<T> = mutableListOf()
@@ -211,7 +211,7 @@ private class FListImpl<T>(
         return block(_mutableList).also { change ->
             if (change) {
                 _isDirty = true
-                onChange?.invoke(data)
+                onChange()
             }
         }
     }
