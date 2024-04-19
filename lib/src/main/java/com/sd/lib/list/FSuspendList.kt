@@ -3,6 +3,7 @@ package com.sd.lib.list
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface FSuspendList<T> {
@@ -117,38 +118,56 @@ private class SuspendListImpl<T>(
         }
 
     override suspend fun set(list: List<T>): Boolean {
-        return _rawList.set(list)
+        return withContext(_dispatcher) {
+            _rawList.set(list)
+        }
     }
 
     override suspend fun clear(): Boolean {
-        return _rawList.clear()
+        return withContext(_dispatcher) {
+            _rawList.clear()
+        }
     }
 
     override suspend fun add(data: T): Boolean {
-        return _rawList.add(data)
+        return withContext(_dispatcher) {
+            _rawList.add(data)
+        }
     }
 
     override suspend fun addAll(list: List<T>): Boolean {
-        return _rawList.addAll(list)
+        return withContext(_dispatcher) {
+            _rawList.addAll(list)
+        }
     }
 
     override suspend fun addAllDistinctInput(list: List<T>): Boolean {
-        return _rawList.addAllDistinctInput(list)
+        return withContext(_dispatcher) {
+            _rawList.addAllDistinctInput(list)
+        }
     }
 
     override suspend fun replaceFirst(block: (T) -> T): Boolean {
-        return _rawList.replaceFirst(block)
+        return withContext(_dispatcher) {
+            _rawList.replaceFirst(block)
+        }
     }
 
     override suspend fun replaceAll(block: (T) -> T): Boolean {
-        return _rawList.replaceAll(block)
+        return withContext(_dispatcher) {
+            _rawList.replaceAll(block)
+        }
     }
 
     override suspend fun removeFirst(predicate: (T) -> Boolean): Boolean {
-        return _rawList.removeFirst(predicate)
+        return withContext(_dispatcher) {
+            _rawList.removeFirst(predicate)
+        }
     }
 
     override suspend fun removeAll(predicate: (T) -> Boolean): Boolean {
-        return _rawList.removeAll(predicate)
+        return withContext(_dispatcher) {
+            _rawList.removeAll(predicate)
+        }
     }
 }
