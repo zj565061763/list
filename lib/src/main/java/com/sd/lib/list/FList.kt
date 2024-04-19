@@ -102,8 +102,8 @@ private class FListImpl<T>(
     override val data: List<T>
         get() {
             if (_isDirty) {
-                _isDirty = false
                 _data = _mutableList.toList()
+                _isDirty = false
             }
             return _data
         }
