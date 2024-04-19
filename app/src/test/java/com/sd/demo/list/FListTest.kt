@@ -38,38 +38,23 @@ class FListTest {
     @Test
     fun `test addAll`() {
         val list = FList<Int>()
-
-        list.addAll(listOf(1, 2, 3), null)
-        assertEquals(listOf(1, 2, 3), list.data)
-
-        list.addAll(listOf(4, 5, 6), null)
-        assertEquals(listOf(1, 2, 3, 4, 5, 6), list.data)
-    }
-
-    @Test
-    fun `test addAll distinct`() {
-        val list = FList<Int>().apply {
-            addAll(listOf(1, 2, 3), null)
-        }
-
-        list.addAll(listOf(3, 1, 5)) { oldItem, newItem -> oldItem == newItem }
-        assertEquals(listOf(2, 3, 1, 5), list.data)
+        list.addAll(listOf(1, 2, 3))
+        list.addAll(listOf(1, 2, 4))
+        assertEquals(listOf(3, 1, 2, 4), list.data)
     }
 
     @Test
     fun `test addAllDistinctInput`() {
-        val list = FList<Int>().apply {
-            addAll(listOf(1, 2, 3), null)
-        }
-
-        list.addAllDistinctInput(listOf(3, 1, 5))
-        assertEquals(listOf(1, 2, 3, 5), list.data)
+        val list = FList<Int>()
+        list.addAll(listOf(1, 2, 3))
+        list.addAllDistinctInput(listOf(1, 2, 4))
+        assertEquals(listOf(1, 2, 3, 4), list.data)
     }
 
     @Test
     fun `test replaceFirst`() {
         val list = FList<Int>().apply {
-            addAll(listOf(1, 1, 1), null)
+            addAll(listOf(1, 1, 1))
         }
 
         list.replaceFirst { if (it == 1) 0 else it }
@@ -82,7 +67,7 @@ class FListTest {
     @Test
     fun `test replaceAll`() {
         val list = FList<Int>().apply {
-            addAll(listOf(1, 1, 1), null)
+            addAll(listOf(1, 1, 1))
         }
 
         list.replaceAll { if (it == 1) 0 else it }
@@ -92,7 +77,7 @@ class FListTest {
     @Test
     fun `test removeFirst`() {
         val list = FList<Int>().apply {
-            addAll(listOf(1, 1, 1), null)
+            addAll(listOf(1, 1, 1))
         }
 
         list.removeFirst { it == 1 }
@@ -102,7 +87,7 @@ class FListTest {
     @Test
     fun `test removeAll`() {
         val list = FList<Int>().apply {
-            addAll(listOf(1, 1, 1), null)
+            addAll(listOf(1, 1, 1))
         }
 
         list.removeAll { it == 1 }

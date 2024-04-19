@@ -23,29 +23,20 @@ interface FList<T> {
     fun add(data: T): Boolean
 
     /**
-     * 添加数据并根据[distinct]去重，删除[FList]中重复的数据
+     * 添加数据并删除[FList]中重复的数据
      *
      * @param list 新数据
-     * @param distinct null-不进行去重操作，[distinct]返回true表示数据重复
      * @return true-本次调用数据发生了变化
      */
-    fun addAll(
-        list: List<T>,
-        /** 去重条件，返回true表示数据重复 */
-        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
-    ): Boolean
+    fun addAll(list: List<T>): Boolean
 
     /**
-     * 添加数据并根据[distinct]去重，删除[list]中重复的数据
+     * 添加数据并删除[list]中重复的数据
      *
      * @param list 新数据
-     * @param distinct [distinct]返回true表示数据重复
+     * @return true-本次调用数据发生了变化
      */
-    fun addAllDistinctInput(
-        list: List<T>,
-        /** 去重条件，返回true表示数据重复 */
-        distinct: (oldItem: T, newItem: T) -> Boolean = { oldItem, newItem -> oldItem == newItem },
-    ): Boolean
+    fun addAllDistinctInput(list: List<T>): Boolean
 
     /**
      * 如果[block]返回的新对象 != 原对象，则用新对象替换原对象并结束遍历
@@ -80,24 +71,24 @@ interface FList<T> {
  * 创建[FList]，
  * 不支持多线程并发，如果有多线程的使用场景，需要外部做线程同步。
  *
- * @param onChange 数据变化回调
+ * @param distinct 返回true表示两个对象相同，默认采用equals()比较
  */
 fun <T> FList(
-    onChange: FList<T>.() -> Unit = {},
+    distinct: (oldItem: T, newItem: T) -> Boolean = { oldItem, newItem -> oldItem == newItem },
 ): FList<T> {
     return FListImpl(
-        onChange = onChange,
+        distinct = distinct,
     )
 }
 
 private class FListImpl<T>(
-    private val onChange: FList<T>.() -> Unit = {},
+    private val distinct: (oldItem: T, newItem: T) -> Boolean,
 ) : FList<T> {
 
-    private val _mutableList: MutableList<T> = mutableListOf()
-
     private var _isDirty = false
-    private lateinit var _data: List<T>
+
+    private val _mutableList: MutableList<T> = mutableListOf()
+    private var _data: List<T> = emptyList()
 
     override val data: List<T>
         get() {
@@ -129,18 +120,8 @@ private class FListImpl<T>(
         }
     }
 
-    override fun addAll(
-        list: List<T>,
-        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
-    ): Boolean {
+    override fun addAll(list: List<T>): Boolean {
         if (list.isEmpty()) return false
-
-        if (distinct == null) {
-            return modify { mutableList ->
-                mutableList.addAll(list)
-            }
-        }
-
         return modify { mutableList ->
             val removeAllChanged = mutableList.removeAll { oldItem ->
                 list.firstOrNull { newItem -> distinct(oldItem, newItem) } != null
@@ -150,10 +131,7 @@ private class FListImpl<T>(
         }
     }
 
-    override fun addAllDistinctInput(
-        list: List<T>,
-        distinct: (oldItem: T, newItem: T) -> Boolean,
-    ): Boolean {
+    override fun addAllDistinctInput(list: List<T>): Boolean {
         if (list.isEmpty()) return false
         return modify { mutableList ->
             val inputList = list.toMutableList()
@@ -208,10 +186,9 @@ private class FListImpl<T>(
     }
 
     private fun modify(block: (list: MutableList<T>) -> Boolean): Boolean {
-        return block(_mutableList).also { change ->
-            if (change) {
+        return block(_mutableList).also { changed ->
+            if (changed) {
                 _isDirty = true
-                onChange()
             }
         }
     }
