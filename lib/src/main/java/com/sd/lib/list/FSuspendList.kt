@@ -4,7 +4,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
-import java.util.concurrent.atomic.AtomicBoolean
 
 interface FSuspendList<T> {
 
@@ -83,7 +82,7 @@ interface FSuspendList<T> {
 }
 
 /**
- * 创建[FSuspendList]，不支持多线程并发
+ * 创建[FSuspendList]
  *
  * @param distinct 返回true表示两个对象相同，默认采用equals()比较
  */
@@ -105,22 +104,10 @@ private class SuspendListImpl<T>(
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _dispatcher = dispatcher.limitedParallelism(1)
 
-    private val _isDirty = AtomicBoolean(false)
-
-    private val _rawList = OnChangeList(
-        proxy = FRawList(distinct = distinct),
-        onChange = { _isDirty.set(true) },
-    )
-
-    private var _data: List<T> = emptyList()
+    private val _rawList = FList(distinct = distinct)
 
     override val data: List<T>
-        get() {
-            if (_isDirty.compareAndSet(true, false)) {
-                _data = _rawList.data.toList()
-            }
-            return _data
-        }
+        get() = _rawList.data
 
     override suspend fun set(list: List<T>): Boolean {
         return dispatch {
