@@ -3,7 +3,7 @@ package com.sd.lib.list
 /**
  * 创建[FList]，不支持多线程并发
  *
- * @param mutableList 要修改的列表
+ * @param mutableList 要修改的列表，内部会保存这个列表并直接操作它
  * @param distinct 返回true表示两个对象相同，默认采用equals()比较
  */
 fun <T> FRawList(
