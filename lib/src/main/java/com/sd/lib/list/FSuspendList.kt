@@ -75,6 +75,11 @@ interface FSuspendList<T> {
      * @return true-本次调用数据发生了变化
      */
     suspend fun removeAll(predicate: (T) -> Boolean): Boolean
+
+    /**
+     * 在[FSuspendList]的调度器上面执行
+     */
+    suspend fun <R> dispatch(block: suspend FSuspendList<T>.() -> R): R
 }
 
 /**
@@ -118,56 +123,62 @@ private class SuspendListImpl<T>(
         }
 
     override suspend fun set(list: List<T>): Boolean {
-        return withContext(_dispatcher) {
+        return dispatch {
             _rawList.set(list)
         }
     }
 
     override suspend fun clear(): Boolean {
-        return withContext(_dispatcher) {
+        return dispatch {
             _rawList.clear()
         }
     }
 
     override suspend fun add(data: T): Boolean {
-        return withContext(_dispatcher) {
+        return dispatch {
             _rawList.add(data)
         }
     }
 
     override suspend fun addAll(list: List<T>): Boolean {
-        return withContext(_dispatcher) {
+        return dispatch {
             _rawList.addAll(list)
         }
     }
 
     override suspend fun addAllDistinctInput(list: List<T>): Boolean {
-        return withContext(_dispatcher) {
+        return dispatch {
             _rawList.addAllDistinctInput(list)
         }
     }
 
     override suspend fun replaceFirst(block: (T) -> T): Boolean {
-        return withContext(_dispatcher) {
+        return dispatch {
             _rawList.replaceFirst(block)
         }
     }
 
     override suspend fun replaceAll(block: (T) -> T): Boolean {
-        return withContext(_dispatcher) {
+        return dispatch {
             _rawList.replaceAll(block)
         }
     }
 
     override suspend fun removeFirst(predicate: (T) -> Boolean): Boolean {
-        return withContext(_dispatcher) {
+        return dispatch {
             _rawList.removeFirst(predicate)
         }
     }
 
     override suspend fun removeAll(predicate: (T) -> Boolean): Boolean {
-        return withContext(_dispatcher) {
+        return dispatch {
             _rawList.removeAll(predicate)
+        }
+    }
+
+    override suspend fun <R> dispatch(block: suspend FSuspendList<T>.() -> R): R {
+        return withContext(_dispatcher) {
+            block()
         }
     }
 }
