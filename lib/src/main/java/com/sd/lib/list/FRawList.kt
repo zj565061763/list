@@ -62,7 +62,7 @@ private class RawListImpl<T>(
         } else {
             val inputList = list.toMutableList()
             inputList.removeAll { newItem ->
-                mutableList.firstOrNull { oldItem -> dist(oldItem, newItem) } != null
+                mutableList.find { oldItem -> dist(oldItem, newItem) } != null
             }
             mutableList.addAll(inputList)
         }
