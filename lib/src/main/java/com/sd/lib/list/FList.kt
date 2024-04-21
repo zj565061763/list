@@ -1,5 +1,7 @@
 package com.sd.lib.list
 
+import java.util.concurrent.atomic.AtomicBoolean
+
 interface FList<T> {
 
     /** 数据 */
@@ -88,20 +90,19 @@ private class ListImpl<T>(
     distinct: ((oldItem: T, newItem: T) -> Boolean)?,
 ) : FList<T> {
 
-    private var _isDirty = false
+    private val _isDirty = AtomicBoolean(false)
 
     private val _rawList = OnChangeList(
         proxy = FRawList(distinct = distinct),
-        onChange = { _isDirty = true },
+        onChange = { _isDirty.set(true) },
     )
 
     private var _data: List<T> = emptyList()
 
     override val data: List<T>
         get() {
-            if (_isDirty) {
+            if (_isDirty.compareAndSet(true, false)) {
                 _data = _rawList.data.toList()
-                _isDirty = false
             }
             return _data
         }
