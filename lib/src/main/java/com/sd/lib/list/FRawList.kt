@@ -47,7 +47,7 @@ private class RawListImpl<T>(
             mutableList.addAll(list)
         } else {
             val removeAllChanged = mutableList.removeAll { oldItem ->
-                list.firstOrNull { newItem -> dist(oldItem, newItem) } != null
+                list.find { newItem -> dist(oldItem, newItem) } != null
             }
             val addAllChanged = mutableList.addAll(list)
             removeAllChanged || addAllChanged
