@@ -4,6 +4,7 @@ internal class OnChangeList<T>(
     private val proxy: FList<T>,
     private val onChange: () -> Unit,
 ) : FList<T> {
+
     override val data: List<T>
         get() = proxy.data
 
