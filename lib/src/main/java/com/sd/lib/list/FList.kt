@@ -1,5 +1,6 @@
 package com.sd.lib.list
 
+import java.util.Collections
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface FList<T> {
@@ -74,7 +75,7 @@ interface FList<T> {
 }
 
 /**
- * 创建[FList]，不支持多线程并发
+ * 创建[FList]
  *
  * @param distinct 返回true表示两个对象相同，默认采用equals()比较
  */
@@ -93,7 +94,10 @@ private class ListImpl<T>(
     private val _isDirty = AtomicBoolean(false)
 
     private val _rawList = OnChangeList(
-        proxy = FRawList(distinct = distinct),
+        proxy = FRawList(
+            mutableList = Collections.synchronizedList(mutableListOf()),
+            distinct = distinct,
+        ),
         onChange = { _isDirty.set(true) },
     )
 
