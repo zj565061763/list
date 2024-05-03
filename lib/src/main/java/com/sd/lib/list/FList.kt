@@ -1,6 +1,5 @@
 package com.sd.lib.list
 
-import java.util.Collections
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface FList<T> {
@@ -125,7 +124,7 @@ private class ListImpl<T> : FList<T> {
     private val _isDirty = AtomicBoolean(false)
 
     private val _list: FList<T> = OnChangeList(
-        proxy = FRawList(Collections.synchronizedList(mutableListOf())),
+        proxy = FRawList(),
         onChange = { _isDirty.set(true) },
     )
 
