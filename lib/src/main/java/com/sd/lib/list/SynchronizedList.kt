@@ -3,15 +3,23 @@ package com.sd.lib.list
 /**
  * 返回线程安全的[FList]
  */
-fun <T> FList<T>.synchronizedList(): FList<T> {
-    return if (this is SynchronizedList) this else SynchronizedList(this)
+fun <T> FList<T>.synchronizedList(lock: Any? = null): FList<T> {
+    return if (this is SynchronizedList) {
+        this
+    } else {
+        SynchronizedList(
+            proxy = this,
+            lock = lock,
+        )
+    }
 }
 
 private class SynchronizedList<T>(
     private val proxy: FList<T>,
+    lock: Any?,
 ) : FList<T> {
 
-    private val _lock = this
+    private val _lock = lock ?: this
 
     override fun getData(): List<T> {
         return synchronized(_lock) {
