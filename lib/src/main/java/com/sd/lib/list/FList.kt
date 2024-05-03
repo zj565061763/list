@@ -72,6 +72,20 @@ interface FList<T> {
      * @return true-本次调用数据发生了变化
      */
     fun removeAll(predicate: (T) -> Boolean): Boolean
+
+    /**
+     * 在[index]位置插入[data]
+     *
+     * @return true-本次调用数据发生了变化
+     */
+    fun insert(index: Int, data: T): Boolean
+
+    /**
+     * 在[index]位置插入[list]
+     *
+     * @return true-本次调用数据发生了变化
+     */
+    fun insertAll(index: Int, list: List<T>): Boolean
 }
 
 /**
@@ -145,5 +159,13 @@ private class ListImpl<T>(
 
     override fun removeAll(predicate: (T) -> Boolean): Boolean {
         return _rawList.removeAll(predicate)
+    }
+
+    override fun insert(index: Int, data: T): Boolean {
+        return _rawList.insert(index, data)
+    }
+
+    override fun insertAll(index: Int, list: List<T>): Boolean {
+        return _rawList.insertAll(index, list)
     }
 }

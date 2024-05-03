@@ -102,6 +102,25 @@ private class RawListImpl<T>(
     override fun removeAll(predicate: (T) -> Boolean): Boolean {
         return mutableList.removeAll(predicate)
     }
+
+    override fun insert(index: Int, data: T): Boolean {
+        mutableList.add(index, data)
+        return true
+    }
+
+    override fun insertAll(index: Int, list: List<T>): Boolean {
+        if (list.isEmpty()) return false
+        val dist = distinct
+        return if (dist == null) {
+            mutableList.addAll(index, list)
+        } else {
+            val removeAllChanged = mutableList.removeAll { oldItem ->
+                list.find { newItem -> dist(oldItem, newItem) } != null
+            }
+            val addAllChanged = mutableList.addAll(index, list)
+            removeAllChanged || addAllChanged
+        }
+    }
 }
 
 /**
