@@ -20,8 +20,8 @@ internal class OnChangeList<T>(
         return proxy.add(data).also { if (it) onChange() }
     }
 
-    override fun addAll(list: List<T>): Boolean {
-        return proxy.addAll(list).also { if (it) onChange() }
+    override fun addAll(elements: Collection<T>): Boolean {
+        return proxy.addAll(elements).also { if (it) onChange() }
     }
 
     override fun addAllDistinctInput(list: List<T>): Boolean {
