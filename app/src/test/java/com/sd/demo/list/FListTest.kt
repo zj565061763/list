@@ -137,8 +137,12 @@ private object TestUtils {
     fun `test removeFirst`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
         list.addAll(listOf(1, 1, 1)).also { assertEquals(true, it) }
+
         list.removeFirst { it == 1 }.also { assertEquals(true, it) }
         assertEquals(listOf(1, 1), list.data)
+
+        list.removeFirst { it == 1 }.also { assertEquals(true, it) }
+        assertEquals(listOf(1), list.data)
     }
 
     fun `test removeAll`(list: FList<Int>) {
