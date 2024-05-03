@@ -111,40 +111,40 @@ private object TestUtils {
 
     fun `test addAllDistinctInput`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3))
-        list.addAllDistinctInput(listOf(1, 2, 4))
+        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
+        list.addAllDistinctInput(listOf(1, 2, 4)).also { assertEquals(true, it) }
         assertEquals(listOf(1, 2, 3, 4), list.data)
     }
 
     fun `test replaceFirst`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 1, 1))
+        list.addAll(listOf(1, 1, 1)).also { assertEquals(true, it) }
 
-        list.replaceFirst { if (it == 1) 0 else it }
+        list.replaceFirst { if (it == 1) 0 else it }.also { assertEquals(true, it) }
         assertEquals(listOf(0, 1, 1), list.data)
 
-        list.replaceFirst { if (it == 1) 0 else it }
+        list.replaceFirst { if (it == 1) 0 else it }.also { assertEquals(true, it) }
         assertEquals(listOf(0, 0, 1), list.data)
     }
 
     fun `test replaceAll`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 1, 1))
-        list.replaceAll { if (it == 1) 0 else it }
+        list.addAll(listOf(1, 1, 1)).also { assertEquals(true, it) }
+        list.replaceAll { if (it == 1) 0 else it }.also { assertEquals(true, it) }
         assertEquals(listOf(0, 0, 0), list.data)
     }
 
     fun `test removeFirst`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 1, 1))
-        list.removeFirst { it == 1 }
+        list.addAll(listOf(1, 1, 1)).also { assertEquals(true, it) }
+        list.removeFirst { it == 1 }.also { assertEquals(true, it) }
         assertEquals(listOf(1, 1), list.data)
     }
 
     fun `test removeAll`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 1, 1))
-        list.removeAll { it == 1 }
+        list.addAll(listOf(1, 1, 1)).also { assertEquals(true, it) }
+        list.removeAll { it == 1 }.also { assertEquals(true, it) }
         assertEquals(emptyList<Int>(), list.data)
     }
 }
