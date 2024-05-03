@@ -127,6 +127,13 @@ class FListTest {
             TestUtils.`test insertAllDistinctInput none distinct`(it)
         }
     }
+
+    @Test
+    fun `test modify`() {
+        _list.forEach {
+            TestUtils.`test modify`(it)
+        }
+    }
 }
 
 private object TestUtils {
@@ -420,5 +427,14 @@ private object TestUtils {
             assertEquals(false, it)
             assertEquals(listOf(1, 2, 4, 1, 2, 3), list.getData())
         }
+    }
+
+    fun `test modify`(list: FList<Int>) {
+        list.modify {
+            add(1)
+            add(2)
+            add(3)
+        }
+        assertEquals(listOf(1, 2, 3), list.getData())
     }
 }
