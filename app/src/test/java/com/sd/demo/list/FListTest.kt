@@ -1,14 +1,136 @@
 package com.sd.demo.list
 
 import com.sd.lib.list.FList
+import com.sd.lib.list.FRawList
+import com.sd.lib.list.synchronizedList
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class FListTest {
+
+    private val _list: List<FList<Int>>
+        get() = listOf(
+            FRawList(),
+            FRawList<Int>().synchronizedList(),
+            FList(),
+            FList<Int>().synchronizedList(),
+        )
+
     @Test
     fun `test set`() {
-        val list = FList<Int>()
+        _list.forEach {
+            TestUtils.`test set`(it)
+        }
+    }
 
+    @Test
+    fun `test clear`() {
+        _list.forEach {
+            TestUtils.`test clear`(it)
+        }
+    }
+
+    @Test
+    fun `test add`() {
+        _list.forEach {
+            TestUtils.`test add`(it)
+        }
+    }
+
+    @Test
+    fun `test addAll`() {
+        _list.forEach {
+            TestUtils.`test addAll`(it)
+        }
+    }
+
+    @Test
+    fun `test addAll none distinct`() {
+        _list.forEach {
+            TestUtils.`test addAll none distinct`(it)
+        }
+    }
+
+    @Test
+    fun `test addAllDistinctInput`() {
+        _list.forEach {
+            TestUtils.`test addAllDistinctInput`(it)
+        }
+    }
+
+    @Test
+    fun `test addAllDistinctInput none distinct`() {
+        _list.forEach {
+            TestUtils.`test addAllDistinctInput none distinct`(it)
+        }
+    }
+
+    @Test
+    fun `test replaceFirst`() {
+        _list.forEach {
+            TestUtils.`test replaceFirst`(it)
+        }
+    }
+
+    @Test
+    fun `test replaceAll`() {
+        _list.forEach {
+            TestUtils.`test replaceAll`(it)
+        }
+    }
+
+    @Test
+    fun `test removeFirst`() {
+        _list.forEach {
+            TestUtils.`test removeFirst`(it)
+        }
+    }
+
+    @Test
+    fun `test removeAll`() {
+        _list.forEach {
+            TestUtils.`test removeAll`(it)
+        }
+    }
+
+    @Test
+    fun `test insert`() {
+        _list.forEach {
+            TestUtils.`test insert`(it)
+        }
+    }
+
+    @Test
+    fun `test insertAll`() {
+        _list.forEach {
+            TestUtils.`test insertAll`(it)
+        }
+    }
+
+    @Test
+    fun `test insertAll none distinct`() {
+        _list.forEach {
+            TestUtils.`test insertAll none distinct`(it)
+        }
+    }
+
+    @Test
+    fun `test insertAllDistinctInput`() {
+        _list.forEach {
+            TestUtils.`test insertAllDistinctInput`(it)
+        }
+    }
+
+    @Test
+    fun `test insertAllDistinctInput none distinct`() {
+        _list.forEach {
+            TestUtils.`test insertAllDistinctInput none distinct`(it)
+        }
+    }
+}
+
+private object TestUtils {
+    fun `test set`(list: FList<Int>) {
         listOf(1, 2, 3).let { data ->
             list.set(data).also {
                 assertEquals(true, it)
@@ -35,10 +157,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test clear`() {
-        val list = FList<Int>()
-
+    fun `test clear`(list: FList<Int>) {
         list.set(listOf(1, 2, 3)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3), list.getData())
@@ -55,10 +174,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test add`() {
-        val list = FList<Int>()
-
+    fun `test add`(list: FList<Int>) {
         list.add(1).also {
             assertEquals(true, it)
             assertEquals(listOf(1), list.getData())
@@ -70,10 +186,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test addAll`() {
-        val list = FList<Int>()
-
+    fun `test addAll`(list: FList<Int>) {
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3), list.getData())
@@ -90,10 +203,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test addAll none distinct`() {
-        val list = FList<Int>()
-
+    fun `test addAll none distinct`(list: FList<Int>) {
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3), list.getData())
@@ -110,10 +220,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test addAllDistinctInput`() {
-        val list = FList<Int>()
-
+    fun `test addAllDistinctInput`(list: FList<Int>) {
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3), list.getData())
@@ -130,10 +237,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test addAllDistinctInput none distinct`() {
-        val list = FList<Int>()
-
+    fun `test addAllDistinctInput none distinct`(list: FList<Int>) {
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3), list.getData())
@@ -150,10 +254,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test replaceFirst`() {
-        val list = FList<Int>()
-
+    fun `test replaceFirst`(list: FList<Int>) {
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 1, 1), list.getData())
@@ -175,10 +276,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test replaceAll`() {
-        val list = FList<Int>()
-
+    fun `test replaceAll`(list: FList<Int>) {
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 1, 1), list.getData())
@@ -195,10 +293,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test removeFirst`() {
-        val list = FList<Int>()
-
+    fun `test removeFirst`(list: FList<Int>) {
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 1, 1), list.getData())
@@ -220,10 +315,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test removeAll`() {
-        val list = FList<Int>()
-
+    fun `test removeAll`(list: FList<Int>) {
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 1, 1), list.getData())
@@ -240,10 +332,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test insert`() {
-        val list = FList<Int>()
-
+    fun `test insert`(list: FList<Int>) {
         list.insert(0, 3).also {
             assertEquals(true, it)
             assertEquals(listOf(3), list.getData())
@@ -265,10 +354,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test insertAll`() {
-        val list = FList<Int>()
-
+    fun `test insertAll`(list: FList<Int>) {
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3), list.getData())
@@ -285,10 +371,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test insertAll none distinct`() {
-        val list = FList<Int>()
-
+    fun `test insertAll none distinct`(list: FList<Int>) {
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3), list.getData())
@@ -305,10 +388,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test insertAllDistinctInput`() {
-        val list = FList<Int>()
-
+    fun `test insertAllDistinctInput`(list: FList<Int>) {
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3), list.getData())
@@ -325,10 +405,7 @@ class FListTest {
         }
     }
 
-    @Test
-    fun `test insertAllDistinctInput none distinct`() {
-        val list = FList<Int>()
-
+    fun `test insertAllDistinctInput none distinct`(list: FList<Int>) {
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3), list.getData())
