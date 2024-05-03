@@ -24,8 +24,8 @@ internal class OnChangeList<T>(
         return proxy.addAll(elements).also { if (it) onChange() }
     }
 
-    override fun addAllDistinctInput(list: List<T>): Boolean {
-        return proxy.addAllDistinctInput(list).also { if (it) onChange() }
+    override fun addAllDistinctInput(elements: Collection<T>): Boolean {
+        return proxy.addAllDistinctInput(elements).also { if (it) onChange() }
     }
 
     override fun replaceFirst(block: (T) -> T): Boolean {

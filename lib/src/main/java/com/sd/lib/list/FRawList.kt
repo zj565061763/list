@@ -54,13 +54,13 @@ private class RawListImpl<T>(
         }
     }
 
-    override fun addAllDistinctInput(list: List<T>): Boolean {
-        if (list.isEmpty()) return false
+    override fun addAllDistinctInput(elements: Collection<T>): Boolean {
+        if (elements.isEmpty()) return false
         val dist = distinct
         return if (dist == null) {
-            mutableList.addAll(list)
+            mutableList.addAll(elements)
         } else {
-            val inputList = list.toMutableList()
+            val inputList = elements.toMutableList()
             inputList.removeAll { newItem ->
                 mutableList.find { oldItem -> dist(oldItem, newItem) } != null
             }

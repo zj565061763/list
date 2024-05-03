@@ -37,12 +37,11 @@ interface FList<T> {
     fun addAll(elements: Collection<T>): Boolean
 
     /**
-     * 添加数据并删除[list]中重复的数据
+     * 添加数据并删除[elements]中重复的数据
      *
-     * @param list 新数据
      * @return true-本次调用数据发生了变化
      */
-    fun addAllDistinctInput(list: List<T>): Boolean
+    fun addAllDistinctInput(elements: Collection<T>): Boolean
 
     /**
      * 如果[block]返回的新对象 != 原对象，则用新对象替换原对象并结束遍历
@@ -140,8 +139,8 @@ private class ListImpl<T>(
         return _rawList.addAll(elements)
     }
 
-    override fun addAllDistinctInput(list: List<T>): Boolean {
-        return _rawList.addAllDistinctInput(list)
+    override fun addAllDistinctInput(elements: Collection<T>): Boolean {
+        return _rawList.addAllDistinctInput(elements)
     }
 
     override fun replaceFirst(block: (T) -> T): Boolean {
