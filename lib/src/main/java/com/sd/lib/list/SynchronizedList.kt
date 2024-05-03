@@ -104,4 +104,10 @@ private class SynchronizedList<T>(
             proxy.insertAllDistinctInput(index, elements, distinct)
         }
     }
+
+    override fun <R> modify(block: FList<T>.() -> R): R {
+        return synchronized(_lock) {
+            block.invoke(this)
+        }
+    }
 }

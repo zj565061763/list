@@ -144,4 +144,8 @@ private class RawListImpl<T>(
             mutableList.addAll(index, inputList)
         }
     }
+
+    override fun <R> modify(block: FList<T>.() -> R): R {
+        return block.invoke(this)
+    }
 }

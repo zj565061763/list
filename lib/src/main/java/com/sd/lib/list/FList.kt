@@ -106,6 +106,11 @@ interface FList<T> {
         elements: Collection<T>,
         distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
     ): Boolean
+
+    /**
+     * 修改
+     */
+    fun <R> modify(block: FList<T>.() -> R): R
 }
 
 /**
@@ -193,5 +198,9 @@ private class ListImpl<T> : FList<T> {
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
         return _list.insertAllDistinctInput(index, elements, distinct)
+    }
+
+    override fun <R> modify(block: FList<T>.() -> R): R {
+        return block.invoke(this)
     }
 }

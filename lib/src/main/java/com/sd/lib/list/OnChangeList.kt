@@ -70,4 +70,8 @@ internal class OnChangeList<T>(
     ): Boolean {
         return proxy.insertAllDistinctInput(index, elements, distinct).also { if (it) onChange() }
     }
+
+    override fun <R> modify(block: FList<T>.() -> R): R {
+        return block.invoke(this)
+    }
 }
