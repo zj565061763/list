@@ -2,7 +2,7 @@ package com.sd.demo.list
 
 import com.sd.lib.list.FList
 import com.sd.lib.list.FRawList
-import junit.framework.TestCase.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class FListTest {

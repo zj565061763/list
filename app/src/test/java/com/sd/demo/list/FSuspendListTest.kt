@@ -1,27 +1,41 @@
 package com.sd.demo.list
 
 import com.sd.lib.list.FSuspendList
+import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class FSuspendListTest {
     @Test
-    fun `test set clear`(): Unit = runBlocking {
+    fun `test set`(): Unit = runBlocking {
         val list = FSuspendList<Int>()
 
-        // set
         listOf(1, 2, 3).let { data ->
-            list.set(data)
-            assertEquals(data, list.data)
-        }
-        listOf(4, 5, 6).let { data ->
-            list.set(data)
+            list.set(data).also { assertEquals(true, it) }
             assertEquals(data, list.data)
         }
 
-        // clear
-        list.clear()
+        listOf(4, 5, 6).let { data ->
+            list.set(data).also { assertEquals(true, it) }
+            assertEquals(data, list.data)
+        }
+
+        emptyList<Int>().let { data ->
+            list.set(data).also { TestCase.assertEquals(true, it) }
+            list.set(data).also { TestCase.assertEquals(false, it) }
+            TestCase.assertEquals(data, list.data)
+        }
+    }
+
+    @Test
+    fun `test clear`(): Unit = runBlocking {
+        val list = FSuspendList<Int>()
+
+        list.set(listOf(1, 2, 3))
+        list.clear().also { assertEquals(true, it) }
+        list.clear().also { assertEquals(false, it) }
+
         assertEquals(emptyList<Int>(), list.data)
     }
 
