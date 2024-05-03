@@ -169,6 +169,11 @@ class FListTest {
             assertEquals(true, it)
             assertEquals(listOf(0, 0, 1), list.data)
         }
+
+        list.replaceFirst { if (it == 100) 0 else it }.also {
+            assertEquals(false, it)
+            assertEquals(listOf(0, 0, 1), list.data)
+        }
     }
 
     @Test
@@ -182,6 +187,11 @@ class FListTest {
 
         list.replaceAll { if (it == 1) 0 else it }.also {
             assertEquals(true, it)
+            assertEquals(listOf(0, 0, 0), list.data)
+        }
+
+        list.replaceAll { if (it == 100) 0 else it }.also {
+            assertEquals(false, it)
             assertEquals(listOf(0, 0, 0), list.data)
         }
     }
@@ -204,6 +214,11 @@ class FListTest {
             assertEquals(true, it)
             assertEquals(listOf(1), list.data)
         }
+
+        list.removeFirst { it == 100 }.also {
+            assertEquals(false, it)
+            assertEquals(listOf(1), list.data)
+        }
     }
 
     @Test
@@ -212,6 +227,11 @@ class FListTest {
 
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
+            assertEquals(listOf(1, 1, 1), list.data)
+        }
+
+        list.removeAll { it == 100 }.also {
+            assertEquals(false, it)
             assertEquals(listOf(1, 1, 1), list.data)
         }
 
