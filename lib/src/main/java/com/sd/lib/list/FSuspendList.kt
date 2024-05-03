@@ -6,9 +6,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 
 interface FSuspendList<T> {
-
-    /** 数据 */
-    val data: List<T>
+    /**
+     * 数据
+     */
+    fun getData(): List<T>
 
     /**
      * 设置数据
@@ -133,11 +134,11 @@ private class SuspendListImpl<T>(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _dispatcher = dispatcher.limitedParallelism(1)
-
     private val _list = FList<T>()
 
-    override val data: List<T>
-        get() = _list.data
+    override fun getData(): List<T> {
+        return _list.getData()
+    }
 
     override suspend fun set(elements: Collection<T>): Boolean {
         return dispatch {

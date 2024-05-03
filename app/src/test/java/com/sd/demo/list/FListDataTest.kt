@@ -14,10 +14,10 @@ class FListDataTest {
         val list = FRawList<Int>()
 
         list.add(1)
-        val data1 = list.data
+        val data1 = list.getData()
 
         list.add(1)
-        val data2 = list.data
+        val data2 = list.getData()
 
         assertEquals(true, data1 === data2)
     }
@@ -27,10 +27,10 @@ class FListDataTest {
         val list = FList<Int>()
 
         list.add(1)
-        val data1 = list.data
+        val data1 = list.getData()
 
         list.add(1)
-        val data2 = list.data
+        val data2 = list.getData()
 
         assertEquals(false, data1 === data2)
     }
@@ -40,10 +40,10 @@ class FListDataTest {
         val list = FSuspendList<Int>()
 
         list.add(1)
-        val data1 = list.data
+        val data1 = list.getData()
 
         list.add(1)
-        val data2 = list.data
+        val data2 = list.getData()
 
         assertEquals(false, data1 === data2)
     }

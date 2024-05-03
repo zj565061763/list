@@ -4,9 +4,10 @@ import java.util.Collections
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface FList<T> {
-
-    /** 数据 */
-    val data: List<T>
+    /**
+     * 数据
+     */
+    fun getData(): List<T>
 
     /**
      * 设置数据
@@ -125,13 +126,12 @@ private class ListImpl<T> : FList<T> {
 
     private var _data: List<T> = emptyList()
 
-    override val data: List<T>
-        get() {
-            if (_isDirty.compareAndSet(true, false)) {
-                _data = _list.data.toList()
-            }
-            return _data
+    override fun getData(): List<T> {
+        if (_isDirty.compareAndSet(true, false)) {
+            _data = _list.getData().toList()
         }
+        return _data
+    }
 
     override fun set(elements: Collection<T>): Boolean {
         return _list.set(elements)

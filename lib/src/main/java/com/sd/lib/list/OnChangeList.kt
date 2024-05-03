@@ -5,8 +5,9 @@ internal class OnChangeList<T>(
     private val onChange: () -> Unit,
 ) : FList<T> {
 
-    override val data: List<T>
-        get() = proxy.data
+    override fun getData(): List<T> {
+        return proxy.getData()
+    }
 
     override fun set(elements: Collection<T>): Boolean {
         return proxy.set(elements).also { if (it) onChange() }

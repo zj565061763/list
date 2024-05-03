@@ -13,10 +13,11 @@ private class SynchronizedList<T>(
 
     private val _lock = this
 
-    override val data: List<T>
-        get() = synchronized(_lock) {
-            proxy.data
+    override fun getData(): List<T> {
+        return synchronized(_lock) {
+            proxy.getData()
         }
+    }
 
     override fun set(elements: Collection<T>): Boolean {
         return synchronized(_lock) {

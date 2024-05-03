@@ -13,25 +13,25 @@ class FSuspendListTest {
         listOf(1, 2, 3).let { data ->
             list.set(data).also {
                 assertEquals(true, it)
-                assertEquals(data, list.data)
+                assertEquals(data, list.getData())
             }
         }
 
         listOf(4, 5, 6).let { data ->
             list.set(data).also {
                 assertEquals(true, it)
-                assertEquals(data, list.data)
+                assertEquals(data, list.getData())
             }
         }
 
         emptyList<Int>().let { data ->
             list.set(data).also {
                 assertEquals(true, it)
-                assertEquals(data, list.data)
+                assertEquals(data, list.getData())
             }
             list.set(data).also {
                 assertEquals(false, it)
-                assertEquals(data, list.data)
+                assertEquals(data, list.getData())
             }
         }
     }
@@ -42,17 +42,17 @@ class FSuspendListTest {
 
         list.set(listOf(1, 2, 3)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.clear().also {
             assertEquals(true, it)
-            assertEquals(emptyList<Int>(), list.data)
+            assertEquals(emptyList<Int>(), list.getData())
         }
 
         list.clear().also {
             assertEquals(false, it)
-            assertEquals(emptyList<Int>(), list.data)
+            assertEquals(emptyList<Int>(), list.getData())
         }
     }
 
@@ -62,12 +62,12 @@ class FSuspendListTest {
 
         list.add(1).also {
             assertEquals(true, it)
-            assertEquals(listOf(1), list.data)
+            assertEquals(listOf(1), list.getData())
         }
 
         list.add(2).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2), list.data)
+            assertEquals(listOf(1, 2), list.getData())
         }
     }
 
@@ -77,17 +77,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.addAll(listOf(1, 2, 4)).also {
             assertEquals(true, it)
-            assertEquals(listOf(3, 1, 2, 4), list.data)
+            assertEquals(listOf(3, 1, 2, 4), list.getData())
         }
 
         list.addAll(emptyList()).also {
             assertEquals(false, it)
-            assertEquals(listOf(3, 1, 2, 4), list.data)
+            assertEquals(listOf(3, 1, 2, 4), list.getData())
         }
     }
 
@@ -97,17 +97,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.addAll(listOf(1, 2, 4), distinct = null).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
+            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.getData())
         }
 
         list.addAll(emptyList(), distinct = null).also {
             assertEquals(false, it)
-            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
+            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.getData())
         }
     }
 
@@ -117,17 +117,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.addAllDistinctInput(listOf(1, 2, 4)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3, 4), list.data)
+            assertEquals(listOf(1, 2, 3, 4), list.getData())
         }
 
         list.addAllDistinctInput(emptyList()).also {
             assertEquals(false, it)
-            assertEquals(listOf(1, 2, 3, 4), list.data)
+            assertEquals(listOf(1, 2, 3, 4), list.getData())
         }
     }
 
@@ -137,17 +137,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.addAllDistinctInput(listOf(1, 2, 4), distinct = null).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
+            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.getData())
         }
 
         list.addAllDistinctInput(emptyList(), distinct = null).also {
             assertEquals(false, it)
-            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
+            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.getData())
         }
     }
 
@@ -157,22 +157,22 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 1, 1), list.data)
+            assertEquals(listOf(1, 1, 1), list.getData())
         }
 
         list.replaceFirst { if (it == 1) 0 else it }.also {
             assertEquals(true, it)
-            assertEquals(listOf(0, 1, 1), list.data)
+            assertEquals(listOf(0, 1, 1), list.getData())
         }
 
         list.replaceFirst { if (it == 1) 0 else it }.also {
             assertEquals(true, it)
-            assertEquals(listOf(0, 0, 1), list.data)
+            assertEquals(listOf(0, 0, 1), list.getData())
         }
 
         list.replaceFirst { if (it == 100) 0 else it }.also {
             assertEquals(false, it)
-            assertEquals(listOf(0, 0, 1), list.data)
+            assertEquals(listOf(0, 0, 1), list.getData())
         }
     }
 
@@ -182,17 +182,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 1, 1), list.data)
+            assertEquals(listOf(1, 1, 1), list.getData())
         }
 
         list.replaceAll { if (it == 1) 0 else it }.also {
             assertEquals(true, it)
-            assertEquals(listOf(0, 0, 0), list.data)
+            assertEquals(listOf(0, 0, 0), list.getData())
         }
 
         list.replaceAll { if (it == 100) 0 else it }.also {
             assertEquals(false, it)
-            assertEquals(listOf(0, 0, 0), list.data)
+            assertEquals(listOf(0, 0, 0), list.getData())
         }
     }
 
@@ -202,22 +202,22 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 1, 1), list.data)
+            assertEquals(listOf(1, 1, 1), list.getData())
         }
 
         list.removeFirst { it == 1 }.also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 1), list.data)
+            assertEquals(listOf(1, 1), list.getData())
         }
 
         list.removeFirst { it == 1 }.also {
             assertEquals(true, it)
-            assertEquals(listOf(1), list.data)
+            assertEquals(listOf(1), list.getData())
         }
 
         list.removeFirst { it == 100 }.also {
             assertEquals(false, it)
-            assertEquals(listOf(1), list.data)
+            assertEquals(listOf(1), list.getData())
         }
     }
 
@@ -227,17 +227,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 1, 1), list.data)
+            assertEquals(listOf(1, 1, 1), list.getData())
         }
 
         list.removeAll { it == 100 }.also {
             assertEquals(false, it)
-            assertEquals(listOf(1, 1, 1), list.data)
+            assertEquals(listOf(1, 1, 1), list.getData())
         }
 
         list.removeAll { it == 1 }.also {
             assertEquals(true, it)
-            assertEquals(emptyList<Int>(), list.data)
+            assertEquals(emptyList<Int>(), list.getData())
         }
     }
 
@@ -247,22 +247,22 @@ class FSuspendListTest {
 
         list.insert(0, 3).also {
             assertEquals(true, it)
-            assertEquals(listOf(3), list.data)
+            assertEquals(listOf(3), list.getData())
         }
 
         list.insert(0, 2).also {
             assertEquals(true, it)
-            assertEquals(listOf(2, 3), list.data)
+            assertEquals(listOf(2, 3), list.getData())
         }
 
         list.insert(0, 1).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.insert(1, 0).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 0, 2, 3), list.data)
+            assertEquals(listOf(1, 0, 2, 3), list.getData())
         }
     }
 
@@ -272,17 +272,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.insertAll(0, listOf(1, 2, 4)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 4, 3), list.data)
+            assertEquals(listOf(1, 2, 4, 3), list.getData())
         }
 
         list.insertAll(0, emptyList()).also {
             assertEquals(false, it)
-            assertEquals(listOf(1, 2, 4, 3), list.data)
+            assertEquals(listOf(1, 2, 4, 3), list.getData())
         }
     }
 
@@ -292,17 +292,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.insertAll(0, listOf(1, 2, 4), distinct = null).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.getData())
         }
 
         list.insertAll(0, emptyList(), distinct = null).also {
             assertEquals(false, it)
-            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.getData())
         }
     }
 
@@ -312,17 +312,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.insertAllDistinctInput(0, listOf(1, 2, 4)).also {
             assertEquals(true, it)
-            assertEquals(listOf(4, 1, 2, 3), list.data)
+            assertEquals(listOf(4, 1, 2, 3), list.getData())
         }
 
         list.insertAllDistinctInput(0, emptyList()).also {
             assertEquals(false, it)
-            assertEquals(listOf(4, 1, 2, 3), list.data)
+            assertEquals(listOf(4, 1, 2, 3), list.getData())
         }
     }
 
@@ -332,17 +332,17 @@ class FSuspendListTest {
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 3), list.getData())
         }
 
         list.insertAllDistinctInput(0, listOf(1, 2, 4), distinct = null).also {
             assertEquals(true, it)
-            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.getData())
         }
 
         list.insertAllDistinctInput(0, emptyList(), distinct = null).also {
             assertEquals(false, it)
-            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.getData())
         }
     }
 }

@@ -13,8 +13,9 @@ private class RawListImpl<T>(
     private val mutableList: MutableList<T>,
 ) : FList<T> {
 
-    override val data: List<T>
-        get() = mutableList
+    override fun getData(): List<T> {
+        return mutableList
+    }
 
     override fun set(elements: Collection<T>): Boolean {
         val clear = clear()
