@@ -59,6 +59,14 @@ class FSuspendListTest {
     }
 
     @Test
+    fun `test addAll none distinct`(): Unit = runBlocking {
+        val list = FSuspendList<Int>(distinct = null)
+        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
+        list.addAll(listOf(1, 2, 4)).also { assertEquals(true, it) }
+        assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
+    }
+
+    @Test
     fun `test addAllDistinctInput`(): Unit = runBlocking {
         val list = FSuspendList<Int>()
         list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
