@@ -20,12 +20,18 @@ internal class OnChangeList<T>(
         return proxy.add(data).also { if (it) onChange() }
     }
 
-    override fun addAll(elements: Collection<T>): Boolean {
-        return proxy.addAll(elements).also { if (it) onChange() }
+    override fun addAll(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        return proxy.addAll(elements, distinct).also { if (it) onChange() }
     }
 
-    override fun addAllDistinctInput(elements: Collection<T>): Boolean {
-        return proxy.addAllDistinctInput(elements).also { if (it) onChange() }
+    override fun addAllDistinctInput(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        return proxy.addAllDistinctInput(elements, distinct).also { if (it) onChange() }
     }
 
     override fun replaceFirst(block: (T) -> T): Boolean {
@@ -48,7 +54,11 @@ internal class OnChangeList<T>(
         return proxy.insert(index, data).also { if (it) onChange() }
     }
 
-    override fun insertAll(index: Int, elements: Collection<T>): Boolean {
-        return proxy.insertAll(index, elements).also { if (it) onChange() }
+    override fun insertAll(
+        index: Int,
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        return proxy.insertAll(index, elements, distinct).also { if (it) onChange() }
     }
 }

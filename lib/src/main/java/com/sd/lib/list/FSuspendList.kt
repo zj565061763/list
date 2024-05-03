@@ -32,18 +32,24 @@ interface FSuspendList<T> {
     suspend fun add(data: T): Boolean
 
     /**
-     * 添加数据并删除[FList]中重复的数据
+     * 添加数据并根据[distinct]删除[FList]中重复的数据
      *
      * @return true-本次调用数据发生了变化
      */
-    suspend fun addAll(elements: Collection<T>): Boolean
+    suspend fun addAll(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    ): Boolean
 
     /**
-     * 添加数据并删除[elements]中重复的数据
+     * 添加数据并根据[distinct]删除[elements]中重复的数据
      *
      * @return true-本次调用数据发生了变化
      */
-    suspend fun addAllDistinctInput(elements: Collection<T>): Boolean
+    suspend fun addAllDistinctInput(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    ): Boolean
 
     /**
      * 如果[block]返回的新对象 != 原对象，则用新对象替换原对象并结束遍历
@@ -82,27 +88,24 @@ interface FSuspendList<T> {
 /**
  * 创建[FSuspendList]
  *
- * @param distinct 返回true表示两个对象相同，默认采用equals()比较
+ * @param dispatcher 执行调度器
  */
 fun <T> FSuspendList(
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
-    distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
 ): FSuspendList<T> {
     return SuspendListImpl(
         dispatcher = dispatcher,
-        distinct = distinct,
     )
 }
 
 private class SuspendListImpl<T>(
     dispatcher: CoroutineDispatcher,
-    distinct: ((oldItem: T, newItem: T) -> Boolean)?,
 ) : FSuspendList<T> {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _dispatcher = dispatcher.limitedParallelism(1)
 
-    private val _rawList = FList(distinct = distinct)
+    private val _rawList = FList<T>()
 
     override val data: List<T>
         get() = _rawList.data
@@ -125,15 +128,21 @@ private class SuspendListImpl<T>(
         }
     }
 
-    override suspend fun addAll(elements: Collection<T>): Boolean {
+    override suspend fun addAll(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
         return dispatch {
-            _rawList.addAll(elements)
+            _rawList.addAll(elements, distinct)
         }
     }
 
-    override suspend fun addAllDistinctInput(elements: Collection<T>): Boolean {
+    override suspend fun addAllDistinctInput(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
         return dispatch {
-            _rawList.addAllDistinctInput(elements)
+            _rawList.addAllDistinctInput(elements, distinct)
         }
     }
 

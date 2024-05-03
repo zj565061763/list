@@ -30,18 +30,24 @@ interface FList<T> {
     fun add(data: T): Boolean
 
     /**
-     * 添加数据并删除[FList]中重复的数据
+     * 添加数据并根据[distinct]删除[FList]中重复的数据
      *
      * @return true-本次调用数据发生了变化
      */
-    fun addAll(elements: Collection<T>): Boolean
+    fun addAll(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    ): Boolean
 
     /**
-     * 添加数据并删除[elements]中重复的数据
+     * 添加数据并根据[distinct]删除[elements]中重复的数据
      *
      * @return true-本次调用数据发生了变化
      */
-    fun addAllDistinctInput(elements: Collection<T>): Boolean
+    fun addAllDistinctInput(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    ): Boolean
 
     /**
      * 如果[block]返回的新对象 != 原对象，则用新对象替换原对象并结束遍历
@@ -79,37 +85,30 @@ interface FList<T> {
     fun insert(index: Int, data: T): Boolean
 
     /**
-     * 在[index]位置插入[elements]
+     * 在[index]位置插入[elements]并根据[distinct]删除[FList]中重复的数据
      *
      * @return true-本次调用数据发生了变化
      */
-    fun insertAll(index: Int, elements: Collection<T>): Boolean
+    fun insertAll(
+        index: Int,
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    ): Boolean
 }
 
 /**
  * 创建[FList]
- *
- * @param distinct 返回true表示两个对象相同，默认采用equals()比较
  */
-fun <T> FList(
-    distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
-): FList<T> {
-    return ListImpl(
-        distinct = distinct,
-    )
+fun <T> FList(): FList<T> {
+    return ListImpl()
 }
 
-private class ListImpl<T>(
-    distinct: ((oldItem: T, newItem: T) -> Boolean)?,
-) : FList<T> {
+private class ListImpl<T> : FList<T> {
 
     private val _isDirty = AtomicBoolean(false)
 
-    private val _rawList = OnChangeList(
-        proxy = FRawList(
-            mutableList = Collections.synchronizedList(mutableListOf()),
-            distinct = distinct,
-        ),
+    private val _rawList = OnChangeList<T>(
+        proxy = FRawList(Collections.synchronizedList(mutableListOf())),
         onChange = { _isDirty.set(true) },
     )
 
@@ -135,12 +134,18 @@ private class ListImpl<T>(
         return _rawList.add(data)
     }
 
-    override fun addAll(elements: Collection<T>): Boolean {
-        return _rawList.addAll(elements)
+    override fun addAll(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        return _rawList.addAll(elements, distinct)
     }
 
-    override fun addAllDistinctInput(elements: Collection<T>): Boolean {
-        return _rawList.addAllDistinctInput(elements)
+    override fun addAllDistinctInput(
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        return _rawList.addAllDistinctInput(elements, distinct)
     }
 
     override fun replaceFirst(block: (T) -> T): Boolean {
@@ -163,7 +168,11 @@ private class ListImpl<T>(
         return _rawList.insert(index, data)
     }
 
-    override fun insertAll(index: Int, elements: Collection<T>): Boolean {
-        return _rawList.insertAll(index, elements)
+    override fun insertAll(
+        index: Int,
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        return _rawList.insertAll(index, elements, distinct)
     }
 }
