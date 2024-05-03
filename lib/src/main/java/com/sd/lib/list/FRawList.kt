@@ -92,7 +92,13 @@ private class RawListImpl<T>(
     }
 
     override fun removeFirst(predicate: (T) -> Boolean): Boolean {
-        return mutableList.removeFirst(predicate)
+        val index = mutableList.indexOfFirst(predicate)
+        return if (index < 0) {
+            false
+        } else {
+            mutableList.removeAt(index)
+            true
+        }
     }
 
     override fun removeAll(predicate: (T) -> Boolean): Boolean {
@@ -137,21 +143,4 @@ private class RawListImpl<T>(
             mutableList.addAll(index, inputList)
         }
     }
-}
-
-/**
- * 根据条件移除元素
- */
-private fun <T> MutableList<T>.removeFirst(
-    predicate: (T) -> Boolean,
-): Boolean {
-    with(iterator()) {
-        while (hasNext()) {
-            if (predicate(next())) {
-                remove()
-                return true
-            }
-        }
-    }
-    return false
 }
