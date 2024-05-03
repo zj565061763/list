@@ -28,8 +28,8 @@ private class RawListImpl<T>(
         return oldSize > 0
     }
 
-    override fun add(data: T): Boolean {
-        return mutableList.add(data)
+    override fun add(element: T): Boolean {
+        return mutableList.add(element)
     }
 
     override fun addAll(

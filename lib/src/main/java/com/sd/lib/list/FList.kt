@@ -27,7 +27,7 @@ interface FList<T> {
      *
      * @return true-本次调用数据发生了变化
      */
-    fun add(data: T): Boolean
+    fun add(element: T): Boolean
 
     /**
      * 添加数据并根据[distinct]删除[FList]中重复的数据
@@ -130,8 +130,8 @@ private class ListImpl<T> : FList<T> {
         return _rawList.clear()
     }
 
-    override fun add(data: T): Boolean {
-        return _rawList.add(data)
+    override fun add(element: T): Boolean {
+        return _rawList.add(element)
     }
 
     override fun addAll(

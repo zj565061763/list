@@ -16,8 +16,8 @@ internal class OnChangeList<T>(
         return proxy.clear().also { if (it) onChange() }
     }
 
-    override fun add(data: T): Boolean {
-        return proxy.add(data).also { if (it) onChange() }
+    override fun add(element: T): Boolean {
+        return proxy.add(element).also { if (it) onChange() }
     }
 
     override fun addAll(

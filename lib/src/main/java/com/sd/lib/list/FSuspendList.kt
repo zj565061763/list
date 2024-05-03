@@ -29,7 +29,7 @@ interface FSuspendList<T> {
      *
      * @return true-本次调用数据发生了变化
      */
-    suspend fun add(data: T): Boolean
+    suspend fun add(element: T): Boolean
 
     /**
      * 添加数据并根据[distinct]删除[FList]中重复的数据
@@ -122,9 +122,9 @@ private class SuspendListImpl<T>(
         }
     }
 
-    override suspend fun add(data: T): Boolean {
+    override suspend fun add(element: T): Boolean {
         return dispatch {
-            _rawList.add(data)
+            _rawList.add(element)
         }
     }
 
