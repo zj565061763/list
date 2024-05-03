@@ -4,14 +4,10 @@ package com.sd.lib.list
  * 返回线程安全的[FList]
  */
 fun <T> FList<T>.synchronizedList(lock: Any? = null): FList<T> {
-    return if (this is SynchronizedList) {
-        this
-    } else {
-        SynchronizedList(
-            proxy = this,
-            lock = lock,
-        )
-    }
+    return SynchronizedList(
+        proxy = this,
+        lock = lock,
+    )
 }
 
 private class SynchronizedList<T>(
