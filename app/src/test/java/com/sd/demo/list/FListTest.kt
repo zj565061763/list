@@ -1,7 +1,6 @@
 package com.sd.demo.list
 
 import com.sd.lib.list.FList
-import com.sd.lib.list.FRawList
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -268,56 +267,81 @@ class FListTest {
 
     @Test
     fun `test insertAll`() {
-        TestUtils.`test insertAll`(FList())
-        TestUtils.`test insertAll`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
+        }
+
+        list.insertAll(0, listOf(1, 2, 4)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 4, 3), list.data)
+        }
+
+        list.insertAll(0, emptyList()).also {
+            assertEquals(false, it)
+            assertEquals(listOf(1, 2, 4, 3), list.data)
+        }
     }
 
     @Test
     fun `test insertAll none distinct`() {
-        TestUtils.`test insertAll none distinct`(FList())
-        TestUtils.`test insertAll none distinct`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
+        }
+
+        list.insertAll(0, listOf(1, 2, 4), distinct = null).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+        }
+
+        list.insertAll(0, emptyList(), distinct = null).also {
+            assertEquals(false, it)
+            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+        }
     }
 
     @Test
     fun `test insertAllDistinctInput`() {
-        TestUtils.`test insertAllDistinctInput`(FList())
-        TestUtils.`test insertAllDistinctInput`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
+        }
+
+        list.insertAllDistinctInput(0, listOf(1, 2, 4)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(4, 1, 2, 3), list.data)
+        }
+
+        list.insertAllDistinctInput(0, emptyList()).also {
+            assertEquals(false, it)
+            assertEquals(listOf(4, 1, 2, 3), list.data)
+        }
     }
 
     @Test
     fun `test insertAllDistinctInput none distinct`() {
-        TestUtils.`test insertAllDistinctInput none distinct`(FList())
-        TestUtils.`test insertAllDistinctInput none distinct`(FRawList())
-    }
-}
+        val list = FList<Int>()
 
-private object TestUtils {
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
+        }
 
-    fun `test insertAll`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
-        list.insertAll(0, listOf(1, 2, 4)).also { assertEquals(true, it) }
-        assertEquals(listOf(1, 2, 4, 3), list.data)
-    }
+        list.insertAllDistinctInput(0, listOf(1, 2, 4), distinct = null).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+        }
 
-    fun `test insertAll none distinct`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
-        list.insertAll(0, listOf(1, 2, 4), distinct = null).also { assertEquals(true, it) }
-        assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
-    }
-
-    fun `test insertAllDistinctInput`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
-        list.insertAllDistinctInput(0, listOf(1, 2, 4)).also { assertEquals(true, it) }
-        assertEquals(listOf(4, 1, 2, 3), list.data)
-    }
-
-    fun `test insertAllDistinctInput none distinct`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
-        list.insertAllDistinctInput(0, listOf(1, 2, 4), distinct = null).also { assertEquals(true, it) }
-        assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+        list.insertAllDistinctInput(0, emptyList(), distinct = null).also {
+            assertEquals(false, it)
+            assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+        }
     }
 }
