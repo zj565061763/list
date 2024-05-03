@@ -8,8 +8,8 @@ internal class OnChangeList<T>(
     override val data: List<T>
         get() = proxy.data
 
-    override fun set(list: List<T>): Boolean {
-        return proxy.set(list).also { if (it) onChange() }
+    override fun set(elements: Collection<T>): Boolean {
+        return proxy.set(elements).also { if (it) onChange() }
     }
 
     override fun clear(): Boolean {

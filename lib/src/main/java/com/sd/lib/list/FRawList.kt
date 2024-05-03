@@ -24,9 +24,9 @@ private class RawListImpl<T>(
     override val data: List<T>
         get() = mutableList
 
-    override fun set(list: List<T>): Boolean {
+    override fun set(elements: Collection<T>): Boolean {
         val clear = clear()
-        val addAll = mutableList.addAll(list)
+        val addAll = mutableList.addAll(elements)
         return clear || addAll
     }
 

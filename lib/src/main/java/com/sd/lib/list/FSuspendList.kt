@@ -15,7 +15,7 @@ interface FSuspendList<T> {
      *
      * @return true-本次调用数据发生了变化
      */
-    suspend fun set(list: List<T>): Boolean
+    suspend fun set(elements: Collection<T>): Boolean
 
     /**
      * 清空数据
@@ -109,9 +109,9 @@ private class SuspendListImpl<T>(
     override val data: List<T>
         get() = _rawList.data
 
-    override suspend fun set(list: List<T>): Boolean {
+    override suspend fun set(elements: Collection<T>): Boolean {
         return dispatch {
-            _rawList.set(list)
+            _rawList.set(elements)
         }
     }
 

@@ -13,7 +13,7 @@ interface FList<T> {
      *
      * @return true-本次调用数据发生了变化
      */
-    fun set(list: List<T>): Boolean
+    fun set(elements: Collection<T>): Boolean
 
     /**
      * 清空数据
@@ -125,8 +125,8 @@ private class ListImpl<T>(
             return _data
         }
 
-    override fun set(list: List<T>): Boolean {
-        return _rawList.set(list)
+    override fun set(elements: Collection<T>): Boolean {
+        return _rawList.set(elements)
     }
 
     override fun clear(): Boolean {
