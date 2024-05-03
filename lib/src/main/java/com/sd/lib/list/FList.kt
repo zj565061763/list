@@ -118,7 +118,7 @@ private class ListImpl<T> : FList<T> {
 
     private val _isDirty = AtomicBoolean(false)
 
-    private val _rawList: FList<T> = OnChangeList(
+    private val _list: FList<T> = OnChangeList(
         proxy = FRawList(Collections.synchronizedList(mutableListOf())),
         onChange = { _isDirty.set(true) },
     )
@@ -128,55 +128,55 @@ private class ListImpl<T> : FList<T> {
     override val data: List<T>
         get() {
             if (_isDirty.compareAndSet(true, false)) {
-                _data = _rawList.data.toList()
+                _data = _list.data.toList()
             }
             return _data
         }
 
     override fun set(elements: Collection<T>): Boolean {
-        return _rawList.set(elements)
+        return _list.set(elements)
     }
 
     override fun clear(): Boolean {
-        return _rawList.clear()
+        return _list.clear()
     }
 
     override fun add(element: T): Boolean {
-        return _rawList.add(element)
+        return _list.add(element)
     }
 
     override fun addAll(
         elements: Collection<T>,
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
-        return _rawList.addAll(elements, distinct)
+        return _list.addAll(elements, distinct)
     }
 
     override fun addAllDistinctInput(
         elements: Collection<T>,
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
-        return _rawList.addAllDistinctInput(elements, distinct)
+        return _list.addAllDistinctInput(elements, distinct)
     }
 
     override fun replaceFirst(block: (T) -> T): Boolean {
-        return _rawList.replaceFirst(block)
+        return _list.replaceFirst(block)
     }
 
     override fun replaceAll(block: (T) -> T): Boolean {
-        return _rawList.replaceAll(block)
+        return _list.replaceAll(block)
     }
 
     override fun removeFirst(predicate: (T) -> Boolean): Boolean {
-        return _rawList.removeFirst(predicate)
+        return _list.removeFirst(predicate)
     }
 
     override fun removeAll(predicate: (T) -> Boolean): Boolean {
-        return _rawList.removeAll(predicate)
+        return _list.removeAll(predicate)
     }
 
     override fun insert(index: Int, element: T): Boolean {
-        return _rawList.insert(index, element)
+        return _list.insert(index, element)
     }
 
     override fun insertAll(
@@ -184,7 +184,7 @@ private class ListImpl<T> : FList<T> {
         elements: Collection<T>,
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
-        return _rawList.insertAll(index, elements, distinct)
+        return _list.insertAll(index, elements, distinct)
     }
 
     override fun insertAllDistinctInput(
@@ -192,6 +192,6 @@ private class ListImpl<T> : FList<T> {
         elements: Collection<T>,
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
-        return _rawList.insertAllDistinctInput(index, elements, distinct)
+        return _list.insertAllDistinctInput(index, elements, distinct)
     }
 }

@@ -134,26 +134,26 @@ private class SuspendListImpl<T>(
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _dispatcher = dispatcher.limitedParallelism(1)
 
-    private val _rawList = FList<T>()
+    private val _list = FList<T>()
 
     override val data: List<T>
-        get() = _rawList.data
+        get() = _list.data
 
     override suspend fun set(elements: Collection<T>): Boolean {
         return dispatch {
-            _rawList.set(elements)
+            _list.set(elements)
         }
     }
 
     override suspend fun clear(): Boolean {
         return dispatch {
-            _rawList.clear()
+            _list.clear()
         }
     }
 
     override suspend fun add(element: T): Boolean {
         return dispatch {
-            _rawList.add(element)
+            _list.add(element)
         }
     }
 
@@ -162,7 +162,7 @@ private class SuspendListImpl<T>(
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
         return dispatch {
-            _rawList.addAll(elements, distinct)
+            _list.addAll(elements, distinct)
         }
     }
 
@@ -171,37 +171,37 @@ private class SuspendListImpl<T>(
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
         return dispatch {
-            _rawList.addAllDistinctInput(elements, distinct)
+            _list.addAllDistinctInput(elements, distinct)
         }
     }
 
     override suspend fun replaceFirst(block: (T) -> T): Boolean {
         return dispatch {
-            _rawList.replaceFirst(block)
+            _list.replaceFirst(block)
         }
     }
 
     override suspend fun replaceAll(block: (T) -> T): Boolean {
         return dispatch {
-            _rawList.replaceAll(block)
+            _list.replaceAll(block)
         }
     }
 
     override suspend fun removeFirst(predicate: (T) -> Boolean): Boolean {
         return dispatch {
-            _rawList.removeFirst(predicate)
+            _list.removeFirst(predicate)
         }
     }
 
     override suspend fun removeAll(predicate: (T) -> Boolean): Boolean {
         return dispatch {
-            _rawList.removeAll(predicate)
+            _list.removeAll(predicate)
         }
     }
 
     override suspend fun insert(index: Int, element: T): Boolean {
         return dispatch {
-            _rawList.insert(index, element)
+            _list.insert(index, element)
         }
     }
 
@@ -211,7 +211,7 @@ private class SuspendListImpl<T>(
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
         return dispatch {
-            _rawList.insertAll(index, elements, distinct)
+            _list.insertAll(index, elements, distinct)
         }
     }
 
@@ -221,7 +221,7 @@ private class SuspendListImpl<T>(
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
         return dispatch {
-            _rawList.insertAllDistinctInput(index, elements, distinct)
+            _list.insertAllDistinctInput(index, elements, distinct)
         }
     }
 
