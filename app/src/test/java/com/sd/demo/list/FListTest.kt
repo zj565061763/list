@@ -66,26 +66,18 @@ private object TestUtils {
         assertEquals(true, list.data.isEmpty())
 
         listOf(1, 2, 3).let { data ->
-            list.set(data).also {
-                assertEquals(true, it)
-            }
+            list.set(data).also { assertEquals(true, it) }
             assertEquals(data, list.data)
         }
 
         listOf(4, 5, 6).let { data ->
-            list.set(data).also {
-                assertEquals(true, it)
-            }
+            list.set(data).also { assertEquals(true, it) }
             assertEquals(data, list.data)
         }
 
         emptyList<Int>().let { data ->
-            list.set(data).also {
-                assertEquals(true, it)
-            }
-            list.set(data).also {
-                assertEquals(false, it)
-            }
+            list.set(data).also { assertEquals(true, it) }
+            list.set(data).also { assertEquals(false, it) }
             assertEquals(data, list.data)
         }
     }
@@ -94,14 +86,8 @@ private object TestUtils {
         assertEquals(true, list.data.isEmpty())
 
         list.set(listOf(1, 2, 3))
-
-        list.clear().also {
-            assertEquals(true, it)
-        }
-
-        list.clear().also {
-            assertEquals(false, it)
-        }
+        list.clear().also { assertEquals(true, it) }
+        list.clear().also { assertEquals(false, it) }
 
         assertEquals(emptyList<Int>(), list.data)
     }
@@ -109,17 +95,17 @@ private object TestUtils {
     fun `test add`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
 
-        list.add(1)
+        list.add(1).also { assertEquals(true, it) }
         assertEquals(listOf(1), list.data)
 
-        list.add(2)
+        list.add(2).also { assertEquals(true, it) }
         assertEquals(listOf(1, 2), list.data)
     }
 
     fun `test addAll`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3))
-        list.addAll(listOf(1, 2, 4))
+        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
+        list.addAll(listOf(1, 2, 4)).also { assertEquals(true, it) }
         assertEquals(listOf(3, 1, 2, 4), list.data)
     }
 
