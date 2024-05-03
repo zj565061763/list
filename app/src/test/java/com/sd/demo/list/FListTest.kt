@@ -3,10 +3,15 @@ package com.sd.demo.list
 import com.sd.lib.list.FList
 import com.sd.lib.list.FRawList
 import junit.framework.TestCase.assertEquals
-import org.junit.Assert
 import org.junit.Test
 
 class FListTest {
+    @Test
+    fun `test set`() {
+        TestUtils.`test set`(FList())
+        TestUtils.`test set`(FRawList())
+    }
+
     @Test
     fun `test set clear`() {
         TestUtils.`test set clear`(FList())
@@ -57,6 +62,34 @@ class FListTest {
 }
 
 private object TestUtils {
+    fun `test set`(list: FList<Int>) {
+        assertEquals(true, list.data.isEmpty())
+
+        listOf(1, 2, 3).let { data ->
+            list.set(data).also {
+                assertEquals(true, it)
+            }
+            assertEquals(data, list.data)
+        }
+
+        listOf(4, 5, 6).let { data ->
+            list.set(data).also {
+                assertEquals(true, it)
+            }
+            assertEquals(data, list.data)
+        }
+
+        emptyList<Int>().let { data ->
+            list.set(data).also {
+                assertEquals(true, it)
+            }
+            list.set(data).also {
+                assertEquals(false, it)
+            }
+            assertEquals(data, list.data)
+        }
+    }
+
     fun `test set clear`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
 
