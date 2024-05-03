@@ -79,11 +79,11 @@ interface FList<T> {
     fun insert(index: Int, data: T): Boolean
 
     /**
-     * 在[index]位置插入[list]
+     * 在[index]位置插入[elements]
      *
      * @return true-本次调用数据发生了变化
      */
-    fun insertAll(index: Int, list: List<T>): Boolean
+    fun insertAll(index: Int, elements: Collection<T>): Boolean
 }
 
 /**
@@ -163,7 +163,7 @@ private class ListImpl<T>(
         return _rawList.insert(index, data)
     }
 
-    override fun insertAll(index: Int, list: List<T>): Boolean {
-        return _rawList.insertAll(index, list)
+    override fun insertAll(index: Int, elements: Collection<T>): Boolean {
+        return _rawList.insertAll(index, elements)
     }
 }

@@ -108,16 +108,16 @@ private class RawListImpl<T>(
         return true
     }
 
-    override fun insertAll(index: Int, list: List<T>): Boolean {
-        if (list.isEmpty()) return false
+    override fun insertAll(index: Int, elements: Collection<T>): Boolean {
+        if (elements.isEmpty()) return false
         val dist = distinct
         return if (dist == null) {
-            mutableList.addAll(index, list)
+            mutableList.addAll(index, elements)
         } else {
             val removeAllChanged = mutableList.removeAll { oldItem ->
-                list.find { newItem -> dist(oldItem, newItem) } != null
+                elements.find { newItem -> dist(oldItem, newItem) } != null
             }
-            val addAllChanged = mutableList.addAll(index, list)
+            val addAllChanged = mutableList.addAll(index, elements)
             removeAllChanged || addAllChanged
         }
     }
