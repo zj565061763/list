@@ -84,6 +84,11 @@ class FListTest {
             assertEquals(true, it)
             assertEquals(listOf(3, 1, 2, 4), list.data)
         }
+
+        list.addAll(emptyList()).also {
+            assertEquals(false, it)
+            assertEquals(listOf(3, 1, 2, 4), list.data)
+        }
     }
 
     @Test
@@ -97,6 +102,11 @@ class FListTest {
 
         list.addAll(listOf(1, 2, 4), distinct = null).also {
             assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
+        }
+
+        list.addAll(emptyList(), distinct = null).also {
+            assertEquals(false, it)
             assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
         }
     }
@@ -114,6 +124,11 @@ class FListTest {
             assertEquals(true, it)
             assertEquals(listOf(1, 2, 3, 4), list.data)
         }
+
+        list.addAllDistinctInput(emptyList()).also {
+            assertEquals(false, it)
+            assertEquals(listOf(1, 2, 3, 4), list.data)
+        }
     }
 
     @Test
@@ -127,6 +142,11 @@ class FListTest {
 
         list.addAllDistinctInput(listOf(1, 2, 4), distinct = null).also {
             assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
+        }
+
+        list.addAllDistinctInput(emptyList(), distinct = null).also {
+            assertEquals(false, it)
             assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
         }
     }
