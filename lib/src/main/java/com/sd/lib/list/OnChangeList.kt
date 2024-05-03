@@ -61,4 +61,12 @@ internal class OnChangeList<T>(
     ): Boolean {
         return proxy.insertAll(index, elements, distinct).also { if (it) onChange() }
     }
+
+    override fun insertAllDistinctInput(
+        index: Int,
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        return proxy.insertAllDistinctInput(index, elements, distinct)
+    }
 }

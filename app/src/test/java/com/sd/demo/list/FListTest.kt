@@ -89,6 +89,12 @@ class FListTest {
         TestUtils.`test insertAll none distinct`(FList())
         TestUtils.`test insertAll none distinct`(FRawList())
     }
+
+    @Test
+    fun `test insertAllDistinctInput`() {
+        TestUtils.`test insertAllDistinctInput`(FList())
+        TestUtils.`test insertAllDistinctInput`(FRawList())
+    }
 }
 
 private object TestUtils {
@@ -219,5 +225,12 @@ private object TestUtils {
         list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
         list.insertAll(0, listOf(1, 2, 4), distinct = null).also { assertEquals(true, it) }
         assertEquals(listOf(1, 2, 4, 1, 2, 3), list.data)
+    }
+
+    fun `test insertAllDistinctInput`(list: FList<Int>) {
+        assertEquals(true, list.data.isEmpty())
+        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
+        list.insertAllDistinctInput(0, listOf(1, 2, 4)).also { assertEquals(true, it) }
+        assertEquals(listOf(4, 1, 2, 3), list.data)
     }
 }

@@ -94,6 +94,17 @@ interface FList<T> {
         elements: Collection<T>,
         distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
     ): Boolean
+
+    /**
+     * 在[index]位置插入[elements]并根据[distinct]删除[elements]中重复的数据
+     *
+     * @return true-本次调用数据发生了变化
+     */
+    fun insertAllDistinctInput(
+        index: Int,
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    ): Boolean
 }
 
 /**
@@ -107,7 +118,7 @@ private class ListImpl<T> : FList<T> {
 
     private val _isDirty = AtomicBoolean(false)
 
-    private val _rawList = OnChangeList<T>(
+    private val _rawList: FList<T> = OnChangeList(
         proxy = FRawList(Collections.synchronizedList(mutableListOf())),
         onChange = { _isDirty.set(true) },
     )
@@ -174,5 +185,13 @@ private class ListImpl<T> : FList<T> {
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
         return _rawList.insertAll(index, elements, distinct)
+    }
+
+    override fun insertAllDistinctInput(
+        index: Int,
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        return _rawList.insertAllDistinctInput(index, elements, distinct)
     }
 }

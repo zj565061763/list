@@ -120,6 +120,23 @@ private class RawListImpl<T>(
             removeAllChanged || addAllChanged
         }
     }
+
+    override fun insertAllDistinctInput(
+        index: Int,
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        if (elements.isEmpty()) return false
+        return if (distinct == null) {
+            mutableList.addAll(index, elements)
+        } else {
+            val inputList = elements.toMutableList()
+            inputList.removeAll { newItem ->
+                mutableList.find { oldItem -> distinct(oldItem, newItem) } != null
+            }
+            mutableList.addAll(index, inputList)
+        }
+    }
 }
 
 /**
