@@ -8,68 +8,197 @@ import org.junit.Test
 class FListTest {
     @Test
     fun `test set`() {
-        TestUtils.`test set`(FList())
-        TestUtils.`test set`(FRawList())
+        val list = FList<Int>()
+
+        listOf(1, 2, 3).let { data ->
+            list.set(data).also {
+                assertEquals(true, it)
+                assertEquals(data, list.data)
+            }
+        }
+
+        listOf(4, 5, 6).let { data ->
+            list.set(data).also {
+                assertEquals(true, it)
+                assertEquals(data, list.data)
+            }
+        }
+
+        emptyList<Int>().let { data ->
+            list.set(data).also {
+                assertEquals(true, it)
+                assertEquals(data, list.data)
+            }
+            list.set(data).also {
+                assertEquals(false, it)
+                assertEquals(data, list.data)
+            }
+        }
     }
 
     @Test
     fun `test clear`() {
-        TestUtils.`test clear`(FList())
-        TestUtils.`test clear`(FRawList())
+        val list = FList<Int>()
+
+        list.set(listOf(1, 2, 3)).also {
+            list.data
+            assertEquals(true, it)
+        }
+
+        list.clear().also {
+            assertEquals(true, it)
+            assertEquals(emptyList<Int>(), list.data)
+        }
+
+        list.clear().also {
+            assertEquals(false, it)
+            assertEquals(emptyList<Int>(), list.data)
+        }
     }
 
     @Test
     fun `test add`() {
-        TestUtils.`test add`(FList())
-        TestUtils.`test add`(FRawList())
+        val list = FList<Int>()
+
+        list.add(1).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1), list.data)
+        }
+
+        list.add(2).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2), list.data)
+        }
     }
 
     @Test
     fun `test addAll`() {
-        TestUtils.`test addAll`(FList())
-        TestUtils.`test addAll`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
+        }
+
+        list.addAll(listOf(1, 2, 4)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(3, 1, 2, 4), list.data)
+        }
     }
 
     @Test
     fun `test addAll none distinct`() {
-        TestUtils.`test addAll none distinct`(FList())
-        TestUtils.`test addAll none distinct`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
+        }
+
+        list.addAll(listOf(1, 2, 4), distinct = null).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
+        }
     }
 
     @Test
     fun `test addAllDistinctInput`() {
-        TestUtils.`test addAllDistinctInput`(FList())
-        TestUtils.`test addAllDistinctInput`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
+        }
+
+        list.addAllDistinctInput(listOf(1, 2, 4)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3, 4), list.data)
+        }
     }
 
     @Test
     fun `test addAllDistinctInput none distinct`() {
-        TestUtils.`test addAllDistinctInput  none distinct`(FList())
-        TestUtils.`test addAllDistinctInput  none distinct`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
+        }
+
+        list.addAllDistinctInput(listOf(1, 2, 4), distinct = null).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
+        }
     }
 
     @Test
     fun `test replaceFirst`() {
-        TestUtils.`test replaceFirst`(FList())
-        TestUtils.`test replaceFirst`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 1, 1)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 1, 1), list.data)
+        }
+
+        list.replaceFirst { if (it == 1) 0 else it }.also {
+            assertEquals(true, it)
+            assertEquals(listOf(0, 1, 1), list.data)
+        }
+
+        list.replaceFirst { if (it == 1) 0 else it }.also {
+            assertEquals(true, it)
+            assertEquals(listOf(0, 0, 1), list.data)
+        }
     }
 
     @Test
     fun `test replaceAll`() {
-        TestUtils.`test replaceAll`(FList())
-        TestUtils.`test replaceAll`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 1, 1)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 1, 1), list.data)
+        }
+
+        list.replaceAll { if (it == 1) 0 else it }.also {
+            assertEquals(true, it)
+            assertEquals(listOf(0, 0, 0), list.data)
+        }
     }
 
     @Test
     fun `test removeFirst`() {
-        TestUtils.`test removeFirst`(FList())
-        TestUtils.`test removeFirst`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 1, 1)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 1, 1), list.data)
+        }
+
+        list.removeFirst { it == 1 }.also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 1), list.data)
+        }
+
+        list.removeFirst { it == 1 }.also {
+            assertEquals(true, it)
+            assertEquals(listOf(1), list.data)
+        }
     }
 
     @Test
     fun `test removeAll`() {
-        TestUtils.`test removeAll`(FList())
-        TestUtils.`test removeAll`(FRawList())
+        val list = FList<Int>()
+
+        list.addAll(listOf(1, 1, 1)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 1, 1), list.data)
+        }
+
+        list.removeAll { it == 1 }.also {
+            assertEquals(true, it)
+            assertEquals(emptyList<Int>(), list.data)
+        }
     }
 
     @Test
@@ -104,109 +233,6 @@ class FListTest {
 }
 
 private object TestUtils {
-    fun `test set`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-
-        listOf(1, 2, 3).let { data ->
-            list.set(data).also { assertEquals(true, it) }
-            assertEquals(data, list.data)
-        }
-
-        listOf(4, 5, 6).let { data ->
-            list.set(data).also { assertEquals(true, it) }
-            assertEquals(data, list.data)
-        }
-
-        emptyList<Int>().let { data ->
-            list.set(data).also { assertEquals(true, it) }
-            list.set(data).also { assertEquals(false, it) }
-            assertEquals(data, list.data)
-        }
-    }
-
-    fun `test clear`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-
-        list.set(listOf(1, 2, 3))
-        list.clear().also { assertEquals(true, it) }
-        list.clear().also { assertEquals(false, it) }
-
-        assertEquals(emptyList<Int>(), list.data)
-    }
-
-    fun `test add`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-
-        list.add(1).also { assertEquals(true, it) }
-        assertEquals(listOf(1), list.data)
-
-        list.add(2).also { assertEquals(true, it) }
-        assertEquals(listOf(1, 2), list.data)
-    }
-
-    fun `test addAll`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
-        list.addAll(listOf(1, 2, 4)).also { assertEquals(true, it) }
-        assertEquals(listOf(3, 1, 2, 4), list.data)
-    }
-
-    fun `test addAll none distinct`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
-        list.addAll(listOf(1, 2, 4), distinct = null).also { assertEquals(true, it) }
-        assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
-    }
-
-    fun `test addAllDistinctInput`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
-        list.addAllDistinctInput(listOf(1, 2, 4)).also { assertEquals(true, it) }
-        assertEquals(listOf(1, 2, 3, 4), list.data)
-    }
-
-    fun `test addAllDistinctInput  none distinct`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
-        list.addAllDistinctInput(listOf(1, 2, 4), distinct = null).also { assertEquals(true, it) }
-        assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
-    }
-
-    fun `test replaceFirst`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 1, 1)).also { assertEquals(true, it) }
-
-        list.replaceFirst { if (it == 1) 0 else it }.also { assertEquals(true, it) }
-        assertEquals(listOf(0, 1, 1), list.data)
-
-        list.replaceFirst { if (it == 1) 0 else it }.also { assertEquals(true, it) }
-        assertEquals(listOf(0, 0, 1), list.data)
-    }
-
-    fun `test replaceAll`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 1, 1)).also { assertEquals(true, it) }
-        list.replaceAll { if (it == 1) 0 else it }.also { assertEquals(true, it) }
-        assertEquals(listOf(0, 0, 0), list.data)
-    }
-
-    fun `test removeFirst`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 1, 1)).also { assertEquals(true, it) }
-
-        list.removeFirst { it == 1 }.also { assertEquals(true, it) }
-        assertEquals(listOf(1, 1), list.data)
-
-        list.removeFirst { it == 1 }.also { assertEquals(true, it) }
-        assertEquals(listOf(1), list.data)
-    }
-
-    fun `test removeAll`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.addAll(listOf(1, 1, 1)).also { assertEquals(true, it) }
-        list.removeAll { it == 1 }.also { assertEquals(true, it) }
-        assertEquals(emptyList<Int>(), list.data)
-    }
 
     fun `test insert`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
