@@ -13,7 +13,9 @@ class FListDataTest {
     fun `test FRawList`() {
         val list = FRawList<Int>()
 
+        list.add(1)
         val data1 = list.data
+
         list.add(1)
         val data2 = list.data
 
@@ -24,7 +26,9 @@ class FListDataTest {
     fun `test FList`() {
         val list = FList<Int>()
 
+        list.add(1)
         val data1 = list.data
+
         list.add(1)
         val data2 = list.data
 
@@ -35,7 +39,9 @@ class FListDataTest {
     fun `test FSuspendList`(): Unit = runBlocking {
         val list = FSuspendList<Int>()
 
+        list.add(1)
         val data1 = list.data
+
         list.add(1)
         val data2 = list.data
 
