@@ -9,7 +9,7 @@ interface FSuspendList<T> {
     /**
      * 数据
      */
-    fun getData(): List<T>
+    suspend fun getData(): List<T>
 
     /**
      * 设置数据
@@ -136,8 +136,10 @@ private class SuspendListImpl<T>(
     private val _dispatcher = dispatcher.limitedParallelism(1)
     private val _list = FList<T>()
 
-    override fun getData(): List<T> {
-        return _list.getData()
+    override suspend fun getData(): List<T> {
+        return dispatch {
+            _list.getData()
+        }
     }
 
     override suspend fun set(elements: Collection<T>): Boolean {
