@@ -41,8 +41,8 @@ class FListTest {
         val list = FList<Int>()
 
         list.set(listOf(1, 2, 3)).also {
-            list.data
             assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
         }
 
         list.clear().also {
