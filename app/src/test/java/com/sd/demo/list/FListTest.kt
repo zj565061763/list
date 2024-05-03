@@ -243,8 +243,27 @@ class FListTest {
 
     @Test
     fun `test insert`() {
-        TestUtils.`test insert`(FList())
-        TestUtils.`test insert`(FRawList())
+        val list = FList<Int>()
+
+        list.insert(0, 3).also {
+            assertEquals(true, it)
+            assertEquals(listOf(3), list.data)
+        }
+
+        list.insert(0, 2).also {
+            assertEquals(true, it)
+            assertEquals(listOf(2, 3), list.data)
+        }
+
+        list.insert(0, 1).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.data)
+        }
+
+        list.insert(1, 0).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 0, 2, 3), list.data)
+        }
     }
 
     @Test
@@ -273,17 +292,6 @@ class FListTest {
 }
 
 private object TestUtils {
-
-    fun `test insert`(list: FList<Int>) {
-        assertEquals(true, list.data.isEmpty())
-        list.insert(0, 3).also { assertEquals(true, it) }
-        list.insert(0, 2).also { assertEquals(true, it) }
-        list.insert(0, 1).also { assertEquals(true, it) }
-        assertEquals(listOf(1, 2, 3), list.data)
-
-        list.insert(1, 0)
-        assertEquals(listOf(1, 0, 2, 3), list.data)
-    }
 
     fun `test insertAll`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
