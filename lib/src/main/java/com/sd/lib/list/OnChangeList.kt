@@ -67,6 +67,6 @@ internal class OnChangeList<T>(
         elements: Collection<T>,
         distinct: ((oldItem: T, newItem: T) -> Boolean)?,
     ): Boolean {
-        return proxy.insertAllDistinctInput(index, elements, distinct)
+        return proxy.insertAllDistinctInput(index, elements, distinct).also { if (it) onChange() }
     }
 }
