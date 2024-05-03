@@ -99,8 +99,8 @@ private class RawListImpl<T>(
         return mutableList.removeAll(predicate)
     }
 
-    override fun insert(index: Int, data: T): Boolean {
-        mutableList.add(index, data)
+    override fun insert(index: Int, element: T): Boolean {
+        mutableList.add(index, element)
         return true
     }
 

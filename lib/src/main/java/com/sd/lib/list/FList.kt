@@ -78,11 +78,11 @@ interface FList<T> {
     fun removeAll(predicate: (T) -> Boolean): Boolean
 
     /**
-     * 在[index]位置插入[data]
+     * 在[index]位置插入[element]
      *
      * @return true-本次调用数据发生了变化
      */
-    fun insert(index: Int, data: T): Boolean
+    fun insert(index: Int, element: T): Boolean
 
     /**
      * 在[index]位置插入[elements]并根据[distinct]删除[FList]中重复的数据
@@ -164,8 +164,8 @@ private class ListImpl<T> : FList<T> {
         return _rawList.removeAll(predicate)
     }
 
-    override fun insert(index: Int, data: T): Boolean {
-        return _rawList.insert(index, data)
+    override fun insert(index: Int, element: T): Boolean {
+        return _rawList.insert(index, element)
     }
 
     override fun insertAll(
