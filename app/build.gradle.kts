@@ -58,8 +58,5 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.cash.turbine)
-
     implementation(project(":lib"))
 }

@@ -1,14 +1,13 @@
 package com.sd.demo.list
 
-import com.sd.lib.list.FSuspendList
-import kotlinx.coroutines.runBlocking
+import com.sd.lib.list.FList
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class FSuspendListTest {
+class FListTest {
     @Test
-    fun `test set`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test set`() {
+        val list = FList<Int>()
 
         listOf(1, 2, 3).let { data ->
             list.set(data).also {
@@ -37,8 +36,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test clear`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test clear`() {
+        val list = FList<Int>()
 
         list.set(listOf(1, 2, 3)).also {
             assertEquals(true, it)
@@ -57,8 +56,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test add`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test add`() {
+        val list = FList<Int>()
 
         list.add(1).also {
             assertEquals(true, it)
@@ -72,8 +71,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test addAll`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test addAll`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
@@ -92,8 +91,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test addAll none distinct`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test addAll none distinct`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
@@ -112,8 +111,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test addAllDistinctInput`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test addAllDistinctInput`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
@@ -132,8 +131,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test addAllDistinctInput none distinct`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test addAllDistinctInput none distinct`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
@@ -152,8 +151,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test replaceFirst`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test replaceFirst`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
@@ -177,8 +176,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test replaceAll`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test replaceAll`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
@@ -197,8 +196,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test removeFirst`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test removeFirst`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
@@ -222,8 +221,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test removeAll`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test removeAll`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 1, 1)).also {
             assertEquals(true, it)
@@ -242,8 +241,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test insert`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test insert`() {
+        val list = FList<Int>()
 
         list.insert(0, 3).also {
             assertEquals(true, it)
@@ -267,8 +266,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test insertAll`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test insertAll`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
@@ -287,8 +286,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test insertAll none distinct`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test insertAll none distinct`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
@@ -307,8 +306,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test insertAllDistinctInput`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test insertAllDistinctInput`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
@@ -327,8 +326,8 @@ class FSuspendListTest {
     }
 
     @Test
-    fun `test insertAllDistinctInput none distinct`(): Unit = runBlocking {
-        val list = FSuspendList<Int>()
+    fun `test insertAllDistinctInput none distinct`() {
+        val list = FList<Int>()
 
         list.addAll(listOf(1, 2, 3)).also {
             assertEquals(true, it)
