@@ -77,6 +77,12 @@ class FListTest {
         TestUtils.`test insert`(FList())
         TestUtils.`test insert`(FRawList())
     }
+
+    @Test
+    fun `test insertAll`() {
+        TestUtils.`test insertAll`(FList())
+        TestUtils.`test insertAll`(FRawList())
+    }
 }
 
 private object TestUtils {
@@ -193,5 +199,12 @@ private object TestUtils {
 
         list.insert(1, 0)
         assertEquals(listOf(1, 0, 2, 3), list.data)
+    }
+
+    fun `test insertAll`(list: FList<Int>) {
+        assertEquals(true, list.data.isEmpty())
+        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
+        list.insertAll(0, listOf(1, 2, 4)).also { assertEquals(true, it) }
+        assertEquals(listOf(1, 2, 4, 3), list.data)
     }
 }
