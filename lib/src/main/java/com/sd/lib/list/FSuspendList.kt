@@ -117,7 +117,7 @@ interface FSuspendList<T> {
 /**
  * 创建[FSuspendList]
  *
- * @param dispatcher 执行调度器
+ * @param dispatcher 调度器
  */
 fun <T> FSuspendList(
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
