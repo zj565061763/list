@@ -43,6 +43,12 @@ class FListTest {
     }
 
     @Test
+    fun `test addAllDistinctInput none distinct`() {
+        TestUtils.`test addAllDistinctInput  none distinct`(FList(distinct = null))
+        TestUtils.`test addAllDistinctInput  none distinct`(FRawList(distinct = null))
+    }
+
+    @Test
     fun `test replaceFirst`() {
         TestUtils.`test replaceFirst`(FList())
         TestUtils.`test replaceFirst`(FRawList())
@@ -127,6 +133,13 @@ private object TestUtils {
         list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
         list.addAllDistinctInput(listOf(1, 2, 4)).also { assertEquals(true, it) }
         assertEquals(listOf(1, 2, 3, 4), list.data)
+    }
+
+    fun `test addAllDistinctInput  none distinct`(list: FList<Int>) {
+        assertEquals(true, list.data.isEmpty())
+        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
+        list.addAllDistinctInput(listOf(1, 2, 4)).also { assertEquals(true, it) }
+        assertEquals(listOf(1, 2, 3, 1, 2, 4), list.data)
     }
 
     fun `test replaceFirst`(list: FList<Int>) {
