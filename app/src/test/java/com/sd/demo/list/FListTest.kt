@@ -13,9 +13,9 @@ class FListTest {
     }
 
     @Test
-    fun `test set clear`() {
-        TestUtils.`test set clear`(FList())
-        TestUtils.`test set clear`(FRawList())
+    fun `test clear`() {
+        TestUtils.`test clear`(FList())
+        TestUtils.`test clear`(FRawList())
     }
 
     @Test
@@ -90,21 +90,19 @@ private object TestUtils {
         }
     }
 
-    fun `test set clear`(list: FList<Int>) {
+    fun `test clear`(list: FList<Int>) {
         assertEquals(true, list.data.isEmpty())
 
-        // set
-        listOf(1, 2, 3).let { data ->
-            list.set(data)
-            assertEquals(data, list.data)
-        }
-        listOf(4, 5, 6).let { data ->
-            list.set(data)
-            assertEquals(data, list.data)
+        list.set(listOf(1, 2, 3))
+
+        list.clear().also {
+            assertEquals(true, it)
         }
 
-        // clear
-        list.clear()
+        list.clear().also {
+            assertEquals(false, it)
+        }
+
         assertEquals(emptyList<Int>(), list.data)
     }
 
