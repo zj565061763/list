@@ -2,6 +2,7 @@ package com.sd.demo.list
 
 import com.sd.lib.list.FList
 import com.sd.lib.list.FRawList
+import junit.framework.TestCase.assertEquals
 import org.junit.Assert
 import org.junit.Test
 
@@ -57,76 +58,76 @@ class FListTest {
 
 private object TestUtils {
     fun `test set clear`(list: FList<Int>) {
-        Assert.assertEquals(true, list.data.isEmpty())
+        assertEquals(true, list.data.isEmpty())
 
         // set
         listOf(1, 2, 3).let { data ->
             list.set(data)
-            Assert.assertEquals(data, list.data)
+            assertEquals(data, list.data)
         }
         listOf(4, 5, 6).let { data ->
             list.set(data)
-            Assert.assertEquals(data, list.data)
+            assertEquals(data, list.data)
         }
 
         // clear
         list.clear()
-        Assert.assertEquals(emptyList<Int>(), list.data)
+        assertEquals(emptyList<Int>(), list.data)
     }
 
     fun `test add`(list: FList<Int>) {
-        Assert.assertEquals(true, list.data.isEmpty())
+        assertEquals(true, list.data.isEmpty())
 
         list.add(1)
-        Assert.assertEquals(listOf(1), list.data)
+        assertEquals(listOf(1), list.data)
 
         list.add(2)
-        Assert.assertEquals(listOf(1, 2), list.data)
+        assertEquals(listOf(1, 2), list.data)
     }
 
     fun `test addAll`(list: FList<Int>) {
-        Assert.assertEquals(true, list.data.isEmpty())
+        assertEquals(true, list.data.isEmpty())
         list.addAll(listOf(1, 2, 3))
         list.addAll(listOf(1, 2, 4))
-        Assert.assertEquals(listOf(3, 1, 2, 4), list.data)
+        assertEquals(listOf(3, 1, 2, 4), list.data)
     }
 
     fun `test addAllDistinctInput`(list: FList<Int>) {
-        Assert.assertEquals(true, list.data.isEmpty())
+        assertEquals(true, list.data.isEmpty())
         list.addAll(listOf(1, 2, 3))
         list.addAllDistinctInput(listOf(1, 2, 4))
-        Assert.assertEquals(listOf(1, 2, 3, 4), list.data)
+        assertEquals(listOf(1, 2, 3, 4), list.data)
     }
 
     fun `test replaceFirst`(list: FList<Int>) {
-        Assert.assertEquals(true, list.data.isEmpty())
+        assertEquals(true, list.data.isEmpty())
         list.addAll(listOf(1, 1, 1))
 
         list.replaceFirst { if (it == 1) 0 else it }
-        Assert.assertEquals(listOf(0, 1, 1), list.data)
+        assertEquals(listOf(0, 1, 1), list.data)
 
         list.replaceFirst { if (it == 1) 0 else it }
-        Assert.assertEquals(listOf(0, 0, 1), list.data)
+        assertEquals(listOf(0, 0, 1), list.data)
     }
 
     fun `test replaceAll`(list: FList<Int>) {
-        Assert.assertEquals(true, list.data.isEmpty())
+        assertEquals(true, list.data.isEmpty())
         list.addAll(listOf(1, 1, 1))
         list.replaceAll { if (it == 1) 0 else it }
-        Assert.assertEquals(listOf(0, 0, 0), list.data)
+        assertEquals(listOf(0, 0, 0), list.data)
     }
 
     fun `test removeFirst`(list: FList<Int>) {
-        Assert.assertEquals(true, list.data.isEmpty())
+        assertEquals(true, list.data.isEmpty())
         list.addAll(listOf(1, 1, 1))
         list.removeFirst { it == 1 }
-        Assert.assertEquals(listOf(1, 1), list.data)
+        assertEquals(listOf(1, 1), list.data)
     }
 
     fun `test removeAll`(list: FList<Int>) {
-        Assert.assertEquals(true, list.data.isEmpty())
+        assertEquals(true, list.data.isEmpty())
         list.addAll(listOf(1, 1, 1))
         list.removeAll { it == 1 }
-        Assert.assertEquals(emptyList<Int>(), list.data)
+        assertEquals(emptyList<Int>(), list.data)
     }
 }
