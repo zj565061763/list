@@ -80,6 +80,24 @@ interface FSuspendList<T> {
     suspend fun removeAll(predicate: (T) -> Boolean): Boolean
 
     /**
+     * 在[index]位置插入[element]
+     *
+     * @return true-本次调用数据发生了变化
+     */
+    suspend fun insert(index: Int, element: T): Boolean
+
+    /**
+     * 在[index]位置插入[elements]并根据[distinct]删除[FList]中重复的数据
+     *
+     * @return true-本次调用数据发生了变化
+     */
+    suspend fun insertAll(
+        index: Int,
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    ): Boolean
+
+    /**
      * 在[FSuspendList]的调度器上面执行
      */
     suspend fun <R> dispatch(block: suspend FSuspendList<T>.() -> R): R
@@ -167,6 +185,22 @@ private class SuspendListImpl<T>(
     override suspend fun removeAll(predicate: (T) -> Boolean): Boolean {
         return dispatch {
             _rawList.removeAll(predicate)
+        }
+    }
+
+    override suspend fun insert(index: Int, element: T): Boolean {
+        return dispatch {
+            _rawList.insert(index, element)
+        }
+    }
+
+    override suspend fun insertAll(
+        index: Int,
+        elements: Collection<T>,
+        distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+    ): Boolean {
+        return dispatch {
+            _rawList.insertAll(index, elements, distinct)
         }
     }
 

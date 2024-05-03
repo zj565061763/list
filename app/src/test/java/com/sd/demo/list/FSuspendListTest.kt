@@ -121,4 +121,24 @@ class FSuspendListTest {
         list.removeAll { it == 1 }.also { assertEquals(true, it) }
         assertEquals(emptyList<Int>(), list.data)
     }
+
+    @Test
+    fun `test insert`(): Unit = runBlocking {
+        val list = FSuspendList<Int>()
+        list.insert(0, 3).also { assertEquals(true, it) }
+        list.insert(0, 2).also { assertEquals(true, it) }
+        list.insert(0, 1).also { assertEquals(true, it) }
+        assertEquals(listOf(1, 2, 3), list.data)
+
+        list.insert(1, 0)
+        assertEquals(listOf(1, 0, 2, 3), list.data)
+    }
+
+    @Test
+    fun `test insertAll`(): Unit = runBlocking {
+        val list = FSuspendList<Int>()
+        list.addAll(listOf(1, 2, 3)).also { assertEquals(true, it) }
+        list.insertAll(0, listOf(1, 2, 4)).also { assertEquals(true, it) }
+        assertEquals(listOf(1, 2, 4, 3), list.data)
+    }
 }
