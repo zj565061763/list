@@ -80,6 +80,13 @@ class FListTest {
     }
 
     @Test
+    fun `test replaceAt`() {
+        _list.forEach {
+            TestUtils.`test replaceAt`(it)
+        }
+    }
+
+    @Test
     fun `test removeFirst`() {
         _list.forEach {
             TestUtils.`test removeFirst`(it)
@@ -304,6 +311,18 @@ private object TestUtils {
         list.replaceAll { if (it == 100) 0 else it }.also {
             assertEquals(false, it)
             assertEquals(listOf(0, 0, 0), list.getData())
+        }
+    }
+
+    fun `test replaceAt`(list: FList<Int>) {
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.getData())
+        }
+
+        list.replaceAt(1, 100).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 100, 3), list.getData())
         }
     }
 

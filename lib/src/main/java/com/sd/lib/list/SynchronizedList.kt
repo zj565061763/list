@@ -71,6 +71,12 @@ private class SynchronizedList<T>(
         }
     }
 
+    override fun replaceAt(index: Int, element: T): Boolean {
+        return synchronized(_lock) {
+            proxy.replaceAt(index, element)
+        }
+    }
+
     override fun removeFirst(predicate: (T) -> Boolean): Boolean {
         return synchronized(_lock) {
             proxy.removeFirst(predicate)

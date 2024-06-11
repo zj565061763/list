@@ -43,6 +43,10 @@ internal class OnChangeList<T>(
         return proxy.replaceAll(block).also { if (it) onChange() }
     }
 
+    override fun replaceAt(index: Int, element: T): Boolean {
+        return proxy.replaceAt(index, element).also { if (it) onChange() }
+    }
+
     override fun removeFirst(predicate: (T) -> Boolean): Boolean {
         return proxy.removeFirst(predicate).also { if (it) onChange() }
     }

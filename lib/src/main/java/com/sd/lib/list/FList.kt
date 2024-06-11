@@ -64,6 +64,11 @@ interface FList<T> {
     fun replaceAll(block: (T) -> T): Boolean
 
     /**
+     * 替换[index]位置的数据
+     */
+    fun replaceAt(index: Int, element: T): Boolean
+
+    /**
      * 删除第一个[predicate]为true的数据
      *
      * @return true-本次调用数据发生了变化
@@ -176,6 +181,10 @@ private class ListImpl<T> : FList<T> {
 
     override fun replaceAll(block: (T) -> T): Boolean {
         return _list.replaceAll(block)
+    }
+
+    override fun replaceAt(index: Int, element: T): Boolean {
+        return _list.replaceAt(index, element)
     }
 
     override fun removeFirst(predicate: (T) -> Boolean): Boolean {

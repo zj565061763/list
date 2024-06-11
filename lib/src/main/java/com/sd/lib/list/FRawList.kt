@@ -92,6 +92,10 @@ private class RawListImpl<T>(
         return result
     }
 
+    override fun replaceAt(index: Int, element: T): Boolean {
+        return mutableList.set(index, element) != null
+    }
+
     override fun removeFirst(predicate: (T) -> Boolean): Boolean {
         val index = mutableList.indexOfFirst(predicate)
         return if (index < 0) {
