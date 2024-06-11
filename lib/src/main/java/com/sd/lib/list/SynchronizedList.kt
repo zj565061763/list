@@ -83,6 +83,12 @@ private class SynchronizedList<T>(
         }
     }
 
+    override fun removeAt(index: Int): Boolean {
+        return synchronized(_lock) {
+            proxy.removeAt(index)
+        }
+    }
+
     override fun insert(index: Int, element: T): Boolean {
         return synchronized(_lock) {
             proxy.insert(index, element)

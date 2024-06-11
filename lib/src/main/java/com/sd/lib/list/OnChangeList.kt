@@ -51,6 +51,10 @@ internal class OnChangeList<T>(
         return proxy.removeAll(predicate).also { if (it) onChange() }
     }
 
+    override fun removeAt(index: Int): Boolean {
+        return proxy.removeAt(index).also { if (it) onChange() }
+    }
+
     override fun insert(index: Int, element: T): Boolean {
         return proxy.insert(index, element).also { if (it) onChange() }
     }

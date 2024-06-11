@@ -94,6 +94,13 @@ class FListTest {
     }
 
     @Test
+    fun `test removeAt`() {
+        _list.forEach {
+            TestUtils.`test removeAt`(it)
+        }
+    }
+
+    @Test
     fun `test insert`() {
         _list.forEach {
             TestUtils.`test insert`(it)
@@ -338,6 +345,19 @@ private object TestUtils {
             assertEquals(emptyList<Int>(), list.getData())
         }
     }
+
+    fun `test removeAt`(list: FList<Int>) {
+        list.addAll(listOf(1, 2, 3)).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 2, 3), list.getData())
+        }
+
+        list.removeAt(1).also {
+            assertEquals(true, it)
+            assertEquals(listOf(1, 3), list.getData())
+        }
+    }
+
 
     fun `test insert`(list: FList<Int>) {
         list.insert(0, 3).also {
