@@ -1,8 +1,7 @@
 package com.sd.lib.list
 
-internal class OnChangeList<T>(
+internal abstract class OnChangeList<T>(
   private val proxy: FList<T>,
-  private val onChange: () -> Unit,
 ) : FList<T> {
 
   override fun getData(): List<T> {
@@ -86,4 +85,6 @@ internal class OnChangeList<T>(
   private fun notifyChange(change: Boolean) {
     if (change) onChange()
   }
+
+  protected abstract fun onChange()
 }

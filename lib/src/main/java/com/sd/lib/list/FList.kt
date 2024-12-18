@@ -133,10 +133,11 @@ private class ListImpl<T> : FList<T> {
   private var _isDirty = false
   private var _data: List<T> = emptyList()
 
-  private val _list: FList<T> = OnChangeList(
-    proxy = RawList(),
-    onChange = { _isDirty = true },
-  )
+  private val _list: FList<T> = object : OnChangeList<T>(RawList()) {
+    override fun onChange() {
+      _isDirty = true
+    }
+  }
 
   override fun getData(): List<T> {
     if (_isDirty) {
