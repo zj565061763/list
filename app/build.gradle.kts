@@ -1,6 +1,6 @@
 plugins {
-  id("com.android.application")
-  id("org.jetbrains.kotlin.android")
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -26,6 +26,15 @@ android {
     }
   }
 
+  compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+  }
+
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+
   buildFeatures {
     compose = true
   }
@@ -35,11 +44,9 @@ android {
   }
 }
 
-kotlin {
-  jvmToolchain(8)
-}
-
 dependencies {
+  implementation(project(":lib"))
+
   implementation(libs.androidx.compose.foundation)
   implementation(libs.androidx.compose.ui.tooling.preview)
   debugImplementation(libs.androidx.compose.ui.tooling)
@@ -57,6 +64,4 @@ dependencies {
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.test.ext.junit)
   androidTestImplementation(libs.androidx.test.espresso.core)
-
-  implementation(project(":lib"))
 }
