@@ -132,15 +132,13 @@ fun <T> FList(): FList<T> {
 }
 
 private class ListImpl<T> : FList<T> {
-
   private val _isDirty = AtomicBoolean(false)
+  private var _data: List<T> = emptyList()
 
   private val _list: FList<T> = OnChangeList(
     proxy = FRawList(),
     onChange = { _isDirty.set(true) },
   )
-
-  private var _data: List<T> = emptyList()
 
   override fun getData(): List<T> {
     if (_isDirty.compareAndSet(true, false)) {
