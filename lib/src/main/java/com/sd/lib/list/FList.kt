@@ -1,7 +1,5 @@
 package com.sd.lib.list
 
-import java.util.concurrent.atomic.AtomicBoolean
-
 interface FList<T> {
   /**
    * 数据
@@ -132,17 +130,18 @@ fun <T> FList(): FList<T> {
 }
 
 private class ListImpl<T> : FList<T> {
-  private val _isDirty = AtomicBoolean(false)
+  private var _isDirty = false
   private var _data: List<T> = emptyList()
 
   private val _list: FList<T> = OnChangeList(
     proxy = FRawList(),
-    onChange = { _isDirty.set(true) },
+    onChange = { _isDirty = true },
   )
 
   override fun getData(): List<T> {
-    if (_isDirty.compareAndSet(true, false)) {
+    if (_isDirty) {
       _data = _list.getData().toList()
+      _isDirty = false
     }
     return _data
   }
