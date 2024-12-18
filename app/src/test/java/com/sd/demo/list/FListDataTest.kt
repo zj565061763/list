@@ -7,29 +7,29 @@ import org.junit.Test
 
 class FListDataTest {
 
-    @Test
-    fun `test FRawList`() {
-        val list = FRawList<Int>()
+  @Test
+  fun `test FRawList`() {
+    val list = FRawList<Int>()
 
-        list.add(1)
-        val data1 = list.getData()
+    list.add(1)
+    val data1 = list.getData()
 
-        list.add(1)
-        val data2 = list.getData()
+    list.add(1)
+    val data2 = list.getData()
 
-        assertEquals(true, data1 === data2)
-    }
+    assertEquals(true, data1 === data2)
+  }
 
-    @Test
-    fun `test FList`() {
-        val list = FList<Int>()
+  @Test
+  fun `test FList`() {
+    val list = FList<Int>()
 
-        list.add(1)
-        val data1 = list.getData()
+    list.add(1)
+    val data1 = list.getData()
 
-        list.add(1)
-        val data2 = list.getData()
+    list.add(1)
+    val data2 = list.getData()
 
-        assertEquals(false, data1 === data2)
-    }
+    assertEquals(false, data1 === data2)
+  }
 }
