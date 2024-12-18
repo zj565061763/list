@@ -1,26 +1,26 @@
 package com.sd.lib.list
 
 internal class RawList<T> : FList<T> {
-  private val _mutableList = mutableListOf<T>()
+  private val _list = mutableListOf<T>()
 
   override fun getData(): List<T> {
-    return _mutableList
+    return _list
   }
 
   override fun set(elements: Collection<T>): Boolean {
     val clear = clear()
-    val addAll = _mutableList.addAll(elements)
+    val addAll = _list.addAll(elements)
     return clear || addAll
   }
 
   override fun clear(): Boolean {
-    val oldSize = _mutableList.size
-    _mutableList.clear()
+    val oldSize = _list.size
+    _list.clear()
     return oldSize > 0
   }
 
   override fun add(element: T): Boolean {
-    return _mutableList.add(element)
+    return _list.add(element)
   }
 
   override fun addAll(
@@ -29,12 +29,12 @@ internal class RawList<T> : FList<T> {
   ): Boolean {
     if (elements.isEmpty()) return false
     return if (distinct == null) {
-      _mutableList.addAll(elements)
+      _list.addAll(elements)
     } else {
-      val removeAllChanged = _mutableList.removeAll { oldItem ->
+      val removeAllChanged = _list.removeAll { oldItem ->
         elements.find { newItem -> distinct(oldItem, newItem) } != null
       }
-      val addAllChanged = _mutableList.addAll(elements)
+      val addAllChanged = _list.addAll(elements)
       removeAllChanged || addAllChanged
     }
   }
@@ -45,23 +45,23 @@ internal class RawList<T> : FList<T> {
   ): Boolean {
     if (elements.isEmpty()) return false
     return if (distinct == null) {
-      _mutableList.addAll(elements)
+      _list.addAll(elements)
     } else {
       val inputList = elements.toMutableList()
       inputList.removeAll { newItem ->
-        _mutableList.find { oldItem -> distinct(oldItem, newItem) } != null
+        _list.find { oldItem -> distinct(oldItem, newItem) } != null
       }
-      _mutableList.addAll(inputList)
+      _list.addAll(inputList)
     }
   }
 
   override fun replaceFirst(block: (T) -> T): Boolean {
     var result = false
-    for (index in _mutableList.indices) {
-      val item = _mutableList[index]
+    for (index in _list.indices) {
+      val item = _list[index]
       val newItem = block(item)
       if (newItem != item) {
-        _mutableList[index] = newItem
+        _list[index] = newItem
         result = true
         break
       }
@@ -71,11 +71,11 @@ internal class RawList<T> : FList<T> {
 
   override fun replaceAll(block: (T) -> T): Boolean {
     var result = false
-    for (index in _mutableList.indices) {
-      val item = _mutableList[index]
+    for (index in _list.indices) {
+      val item = _list[index]
       val newItem = block(item)
       if (newItem != item) {
-        _mutableList[index] = newItem
+        _list[index] = newItem
         result = true
       }
     }
@@ -83,29 +83,29 @@ internal class RawList<T> : FList<T> {
   }
 
   override fun replaceAt(index: Int, element: T): Boolean {
-    return _mutableList.set(index, element) != null
+    return _list.set(index, element) != null
   }
 
   override fun removeFirst(predicate: (T) -> Boolean): Boolean {
-    val index = _mutableList.indexOfFirst(predicate)
+    val index = _list.indexOfFirst(predicate)
     return if (index < 0) {
       false
     } else {
-      _mutableList.removeAt(index)
+      _list.removeAt(index)
       true
     }
   }
 
   override fun removeAll(predicate: (T) -> Boolean): Boolean {
-    return _mutableList.removeAll(predicate)
+    return _list.removeAll(predicate)
   }
 
   override fun removeAt(index: Int): Boolean {
-    return _mutableList.removeAt(index) != null
+    return _list.removeAt(index) != null
   }
 
   override fun insert(index: Int, element: T): Boolean {
-    _mutableList.add(index, element)
+    _list.add(index, element)
     return true
   }
 
@@ -116,12 +116,12 @@ internal class RawList<T> : FList<T> {
   ): Boolean {
     if (elements.isEmpty()) return false
     return if (distinct == null) {
-      _mutableList.addAll(index, elements)
+      _list.addAll(index, elements)
     } else {
-      val removeAllChanged = _mutableList.removeAll { oldItem ->
+      val removeAllChanged = _list.removeAll { oldItem ->
         elements.find { newItem -> distinct(oldItem, newItem) } != null
       }
-      val addAllChanged = _mutableList.addAll(index, elements)
+      val addAllChanged = _list.addAll(index, elements)
       removeAllChanged || addAllChanged
     }
   }
@@ -133,13 +133,13 @@ internal class RawList<T> : FList<T> {
   ): Boolean {
     if (elements.isEmpty()) return false
     return if (distinct == null) {
-      _mutableList.addAll(index, elements)
+      _list.addAll(index, elements)
     } else {
       val inputList = elements.toMutableList()
       inputList.removeAll { newItem ->
-        _mutableList.find { oldItem -> distinct(oldItem, newItem) } != null
+        _list.find { oldItem -> distinct(oldItem, newItem) } != null
       }
-      _mutableList.addAll(index, inputList)
+      _list.addAll(index, inputList)
     }
   }
 
