@@ -145,6 +145,13 @@ class FListTest {
       TestUtils.`test modify`(it)
     }
   }
+
+  @Test
+  fun `test getData`() {
+    _list.forEach {
+      TestUtils.`test getData`(it)
+    }
+  }
 }
 
 private object TestUtils {
@@ -472,5 +479,16 @@ private object TestUtils {
       add(3)
     }
     assertEquals(listOf(1, 2, 3), list.getData())
+  }
+
+  fun `test getData`(list: FList<Int>) {
+    list.add(1)
+    val data1 = list.getData()
+
+    list.add(1)
+    val data2 = list.getData()
+
+    assertEquals(false, data1 === data2)
+    assertEquals(true, list.getData() === list.getData())
   }
 }
