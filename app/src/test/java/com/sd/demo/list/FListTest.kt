@@ -156,21 +156,21 @@ class FListTest {
 
 private object TestUtils {
   fun `test set`(list: FList<Int>) {
-    listOf(1, 2, 3).let { data ->
+    listOf(1, 2, 3).also { data ->
       list.set(data).also {
         assertEquals(true, it)
         assertEquals(data, list.getData())
       }
     }
 
-    listOf(4, 5, 6).let { data ->
+    listOf(4, 5, 6).also { data ->
       list.set(data).also {
         assertEquals(true, it)
         assertEquals(data, list.getData())
       }
     }
 
-    emptyList<Int>().let { data ->
+    emptyList<Int>().also { data ->
       list.set(data).also {
         assertEquals(true, it)
         assertEquals(data, list.getData())
