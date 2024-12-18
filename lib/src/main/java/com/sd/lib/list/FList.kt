@@ -134,7 +134,7 @@ private class ListImpl<T> : FList<T> {
   private var _data: List<T> = emptyList()
 
   private val _list: FList<T> = OnChangeList(
-    proxy = FRawList(),
+    proxy = RawList(),
     onChange = { _isDirty = true },
   )
 

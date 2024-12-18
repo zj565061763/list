@@ -1,7 +1,6 @@
 package com.sd.demo.list
 
 import com.sd.lib.list.FList
-import com.sd.lib.list.FRawList
 import com.sd.lib.list.synchronizedList
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -10,8 +9,6 @@ class FListTest {
 
   private val _list: List<FList<Int>>
     get() = listOf(
-      FRawList(),
-      FRawList<Int>().synchronizedList(),
       FList(),
       FList<Int>().synchronizedList(),
     )
