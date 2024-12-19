@@ -125,9 +125,7 @@ interface FList<T> {
 /**
  * 创建[FList]
  */
-fun <T> FList(): FList<T> {
-  return ListImpl()
-}
+fun <T> FList(): FList<T> = ListImpl()
 
 private class ListImpl<T> : FList<T> {
   private var _isDirty = false
