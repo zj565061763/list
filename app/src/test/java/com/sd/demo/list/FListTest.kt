@@ -381,7 +381,6 @@ private object TestUtils {
     }
   }
 
-
   fun `test insert`(list: FList<Int>) {
     list.insert(0, 3).also {
       assertEquals(true, it)
