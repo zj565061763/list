@@ -34,7 +34,7 @@ interface FList<T> {
    */
   fun addAll(
     elements: Collection<T>,
-    distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    distinct: ((oldItem: T, newItem: T) -> Boolean)? = null,
   ): Boolean
 
   /**
@@ -44,7 +44,7 @@ interface FList<T> {
    */
   fun addAllDistinctInput(
     elements: Collection<T>,
-    distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    distinct: ((oldItem: T, newItem: T) -> Boolean)? = null,
   ): Boolean
 
   /**
@@ -102,7 +102,7 @@ interface FList<T> {
   fun insertAll(
     index: Int,
     elements: Collection<T>,
-    distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    distinct: ((oldItem: T, newItem: T) -> Boolean)? = null,
   ): Boolean
 
   /**
@@ -113,7 +113,7 @@ interface FList<T> {
   fun insertAllDistinctInput(
     index: Int,
     elements: Collection<T>,
-    distinct: ((oldItem: T, newItem: T) -> Boolean)? = { oldItem, newItem -> oldItem == newItem },
+    distinct: ((oldItem: T, newItem: T) -> Boolean)? = null,
   ): Boolean
 
   /**
@@ -125,9 +125,13 @@ interface FList<T> {
 /**
  * 创建[FList]
  */
-fun <T> FList(): FList<T> = ListImpl()
+fun <T> FList(
+  distinct: ((oldItem: T, newItem: T) -> Boolean)? = null,
+): FList<T> = ListImpl(distinct)
 
-private class ListImpl<T> : FList<T> {
+private class ListImpl<T>(
+  private val distinct: ((oldItem: T, newItem: T) -> Boolean)?,
+) : FList<T> {
   private var _isDirty = false
   private var _data: List<T> = emptyList()
 
@@ -161,14 +165,20 @@ private class ListImpl<T> : FList<T> {
     elements: Collection<T>,
     distinct: ((oldItem: T, newItem: T) -> Boolean)?,
   ): Boolean {
-    return _list.addAll(elements, distinct)
+    return _list.addAll(
+      elements = elements,
+      distinct = distinct ?: this.distinct,
+    )
   }
 
   override fun addAllDistinctInput(
     elements: Collection<T>,
     distinct: ((oldItem: T, newItem: T) -> Boolean)?,
   ): Boolean {
-    return _list.addAllDistinctInput(elements, distinct)
+    return _list.addAllDistinctInput(
+      elements = elements,
+      distinct = distinct ?: this.distinct,
+    )
   }
 
   override fun replaceFirst(block: (T) -> T): Boolean {
@@ -204,7 +214,11 @@ private class ListImpl<T> : FList<T> {
     elements: Collection<T>,
     distinct: ((oldItem: T, newItem: T) -> Boolean)?,
   ): Boolean {
-    return _list.insertAll(index, elements, distinct)
+    return _list.insertAll(
+      index = index,
+      elements = elements,
+      distinct = distinct ?: this.distinct,
+    )
   }
 
   override fun insertAllDistinctInput(
@@ -212,7 +226,11 @@ private class ListImpl<T> : FList<T> {
     elements: Collection<T>,
     distinct: ((oldItem: T, newItem: T) -> Boolean)?,
   ): Boolean {
-    return _list.insertAllDistinctInput(index, elements, distinct)
+    return _list.insertAllDistinctInput(
+      index = index,
+      elements = elements,
+      distinct = distinct ?: this.distinct,
+    )
   }
 
   override fun <R> modify(block: FList<T>.() -> R): R {
