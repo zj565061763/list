@@ -217,12 +217,12 @@ private object TestUtils {
       assertEquals(listOf(1, 2, 3), list.getData())
     }
 
-    list.addAll(listOf(1, 2, 4)).also {
+    list.addAll(listOf(1, 2, 4), distinct = { oldItem, newItem -> oldItem == newItem }).also {
       assertEquals(true, it)
       assertEquals(listOf(3, 1, 2, 4), list.getData())
     }
 
-    list.addAll(emptyList()).also {
+    list.addAll(emptyList(), distinct = { oldItem, newItem -> oldItem == newItem }).also {
       assertEquals(false, it)
       assertEquals(listOf(3, 1, 2, 4), list.getData())
     }
@@ -251,12 +251,12 @@ private object TestUtils {
       assertEquals(listOf(1, 2, 3), list.getData())
     }
 
-    list.addAllDistinctInput(listOf(1, 2, 4)).also {
+    list.addAllDistinctInput(listOf(1, 2, 4), distinct = { oldItem, newItem -> oldItem == newItem }).also {
       assertEquals(true, it)
       assertEquals(listOf(1, 2, 3, 4), list.getData())
     }
 
-    list.addAllDistinctInput(emptyList()).also {
+    list.addAllDistinctInput(emptyList(), distinct = { oldItem, newItem -> oldItem == newItem }).also {
       assertEquals(false, it)
       assertEquals(listOf(1, 2, 3, 4), list.getData())
     }
@@ -409,12 +409,12 @@ private object TestUtils {
       assertEquals(listOf(1, 2, 3), list.getData())
     }
 
-    list.insertAll(0, listOf(1, 2, 4)).also {
+    list.insertAll(0, listOf(1, 2, 4), distinct = { oldItem, newItem -> oldItem == newItem }).also {
       assertEquals(true, it)
       assertEquals(listOf(1, 2, 4, 3), list.getData())
     }
 
-    list.insertAll(0, emptyList()).also {
+    list.insertAll(0, emptyList(), distinct = { oldItem, newItem -> oldItem == newItem }).also {
       assertEquals(false, it)
       assertEquals(listOf(1, 2, 4, 3), list.getData())
     }
@@ -443,12 +443,12 @@ private object TestUtils {
       assertEquals(listOf(1, 2, 3), list.getData())
     }
 
-    list.insertAllDistinctInput(0, listOf(1, 2, 4)).also {
+    list.insertAllDistinctInput(0, listOf(1, 2, 4), distinct = { oldItem, newItem -> oldItem == newItem }).also {
       assertEquals(true, it)
       assertEquals(listOf(4, 1, 2, 3), list.getData())
     }
 
-    list.insertAllDistinctInput(0, emptyList()).also {
+    list.insertAllDistinctInput(0, emptyList(), distinct = { oldItem, newItem -> oldItem == newItem }).also {
       assertEquals(false, it)
       assertEquals(listOf(4, 1, 2, 3), list.getData())
     }
